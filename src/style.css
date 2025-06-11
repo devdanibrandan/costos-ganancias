@@ -1,0 +1,402 @@
+:root {
+    --primary: #3498db;
+    --danger: #e74c3c;
+    --success: #2ecc71;
+    --warning: #f39c12;
+    --purple: #9b59b6;
+}
+
+body {
+    font-family: 'Segoe UI', system-ui;
+    line-height: 1.6;
+    background: #f8f9fa;
+    margin: 0;
+    padding: 20px;
+    color: #333;
+}
+
+.container {
+    max-width: 1200px;
+    margin: 0 auto;
+    display: grid;
+    gap: 20px;
+}
+
+.card {
+    background: white;
+    border-radius: 10px;
+    padding: 25px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
+}
+
+h2 {
+    color: #2c3e50;
+    margin-top: 0;
+    border-bottom: 2px solid #eee;
+    padding-bottom: 10px;
+}
+
+.grid-form {
+    display: grid;
+    grid-template-columns: 2fr 1fr 1fr 1fr auto;
+    gap: 10px;
+    margin: 15px 0;
+    align-items: center;
+}
+
+.flex-controls {
+    display: flex;
+    gap: 10px;
+    align-items: center;
+    flex-wrap: wrap;
+}
+
+input, select, button {
+    padding: 10px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    font-size: 14px;
+}
+
+button {
+    background-color: var(--primary);
+    color: white;
+    cursor: pointer;
+    transition: all 0.2s;
+    border: none;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 5px;
+}
+
+button:hover {
+    opacity: 0.9;
+    transform: translateY(-1px);
+}
+
+#btn-guardar {
+    background-color: var(--success);
+}
+
+.btn-delete {
+    background-color: var(--danger);
+    padding: 5px 10px;
+    font-size: 13px;
+}
+
+.btn-action {
+    padding: 5px 10px;
+    margin: 0 2px;
+    font-size: 13px;
+}
+
+.btn-edit {
+    background-color: var(--warning);
+}
+
+.btn-clone {
+    background-color: var(--purple);
+}
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 15px;
+}
+
+th, td {
+    padding: 12px 15px;
+    text-align: left;
+    border-bottom: 1px solid #eee;
+}
+
+th {
+    background-color: #f8f9fa;
+    font-weight: 600;
+}
+
+#resultados {
+    background: #f8f9fa;
+    padding: 15px;
+    border-radius: 5px;
+    margin-top: 20px;
+}
+
+#resultados p {
+    margin: 8px 0;
+    font-size: 16px;
+}
+
+#lista-recetas {
+    list-style: none;
+    padding: 0;
+    display: grid;
+    gap: 15px;
+}
+
+#lista-recetas li {
+    background: white;
+    border-radius: 8px;
+    padding: 15px;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.receta-info {
+    flex-grow: 1;
+}
+
+.receta-nombre {
+    font-weight: bold;
+    display: block;
+    margin-bottom: 5px;
+    color: #2c3e50;
+}
+
+.receta-detalle {
+    display: flex;
+    gap: 15px;
+    font-size: 0.9rem;
+}
+
+.receta-detalle span {
+    background: #f8f9fa;
+    padding: 3px 8px;
+    border-radius: 4px;
+}
+
+.receta-acciones {
+    display: flex;
+    gap: 8px;
+}
+
+#inv-unidad {
+    padding: 10px;
+    border-radius: 5px;
+    border: 1px solid #3498db;
+    width: 100%;
+    margin: 5px 0;
+    background-color: rgb(255, 255, 255);
+}
+
+.modal {
+    display: none;
+    position: fixed;
+    z-index: 100;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0,0,0,0.7);
+}
+
+.modal-content {
+    background: white;
+    margin: 5% auto;
+    padding: 20px;
+    border-radius: 10px;
+    width: 80%;
+    max-width: 700px;
+    max-height: 80vh;
+    overflow-y: auto;
+    position: relative;
+}
+
+.close {
+    color: #aaa;
+    position: absolute;
+    right: 20px;
+    top: 10px;
+    font-size: 28px;
+    font-weight: bold;
+    cursor: pointer;
+}
+
+.close:hover {
+    color: #333;
+}
+
+.edit-table {
+    width: 100%;
+    margin: 15px 0;
+}
+
+.edit-table input {
+    width: 80px;
+    padding: 5px;
+}
+
+.full-width {
+    width: 100%;
+    margin-bottom: 15px;
+    padding: 10px;
+}
+
+.header-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-bottom: 2rem;
+    padding: 1rem;
+    background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+    border-radius: 10px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+/* Contenedor del logo mejorado */
+.logo-container {
+    position: relative;
+    height: 200px;  /* Aumentamos el tamaño */
+    width: 200px;
+    padding: 10px;
+    background: white;
+    border-radius: 50%;
+    box-shadow: 0 0 20px rgba(52, 152, 219, 0.3);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    transition: all 0.4s ease;
+}
+
+/* Logo más grande con efecto hover */
+.logo {
+    height: 280px;  /* Tamaño aumentado */
+    width: auto;
+    z-index: 2;
+    filter: drop-shadow(0 2px 5px rgba(0,0,0,0.2));
+    transition: transform 0.3s ease;
+    object-fit: contain; /* Evita distorsión */
+    
+}
+
+.logo:hover {
+    transform: scale(1.1); /* Zoom al hover */
+    transition: transform 0.3s ease; /* Suavizado */
+}
+
+/* Efecto de brillo animado */
+.logo-glow {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    background: radial-gradient(circle at center, 
+                rgba(52, 152, 219, 0.4) 0%, 
+                transparent 70%);
+    border-radius: 50%;
+    animation: pulse 3s infinite;
+    opacity: 0.7;
+}
+
+/* Animación sutil */
+@keyframes pulse {
+    0% { transform: scale(0.95); opacity: 0.7; }
+    50% { transform: scale(1.05); opacity: 0.9; }
+    100% { transform: scale(0.95); opacity: 0.7; }
+}
+
+/* Texto descriptivo */
+.tagline {
+    margin-top: 5px;
+    font-size: 1.1rem;
+    color: #1c7177;
+    font-style: aitalic;
+    text-align: center;
+}
+
+/* Efectos interactivos */
+.logo-container:hover {
+    transform: scale(1.05);
+    box-shadow: 0 0 30px rgba(52, 152, 219, 0.5);
+}
+
+.logo-container:hover .logo {
+    transform: rotate(-5deg) scale(1.1);
+    animation: float 4s ease-in-out infinite;
+}
+
+/* Borde degradado */
+.logo-container::before {
+    content: '';
+    position: absolute;
+    inset: -3px;
+    background: linear-gradient(45deg, #3498db, #9b59b6);
+    border-radius: 50%;
+    z-index: -1;
+    opacity: 0.7;
+}
+
+/* Efecto de flotación sutil */
+@keyframes float {
+    0% { transform: translateY(0px); }
+    50% { transform: translateY(-5px); }
+    100% { transform: translateY(0px); }
+}
+/* Responsive para móviles */
+@media (max-width: 768px) {
+    .logo-container {
+        height: 100px;
+        width: 100px;
+    }
+    
+    .logo {
+        height: 80px;
+    }
+    
+    .tagline {
+        font-size: 1rem;
+    }
+}
+
+@media (max-width: 768px) {
+    .grid-form {
+        grid-template-columns: 1fr;
+    }
+    
+    .flex-controls {
+        flex-direction: column;
+        align-items: stretch;
+    }
+    
+    .modal-content {
+        width: 95%;
+        margin: 10px auto;
+    }
+}
+
+@media (max-width: 768px) {
+    #lista-recetas li {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 10px;
+    }
+    
+    .receta-detalle {
+        flex-wrap: wrap;
+        gap: 8px;
+    }
+}
+
+/* Transiciones suaves para todos los elementos */
+#tabla-inventario tr,
+#tabla-receta tr,
+#lista-recetas li {
+    transition: all 0.3s ease;
+}
+
+/* Estilo para filas que se están eliminando */
+.fade-out {
+    opacity: 0 !important;
+    transform: translateX(-30px);
+}
+
+/* Mantén los estilos existentes pero añade: */
+.btn-delete {
+    transition: transform 0.2s;
+}
+
+.btn-delete:hover {
+    transform: scale(1.1);
+}

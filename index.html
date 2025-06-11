@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Costo y Ganancias</title>
+    <div class="header-container">
+    <div class="logo-title-wrapper">
+        <!-- Logo más grande con efecto especial -->
+        <div class="logo-container">
+            <img src="./src/assets/logo-pastas.png" alt="Logo" class="logo">
+            <div class="logo-glow"></div>
+        </div>
+    </div>
+    <p class="tagline">La Herramienta Definitiva Para Gastronomía Profesional</p>
+</div>
+</div>
+    
+</head>
+<body>
+    <div class="container">
+        <!-- Sección de Inventario -->
+        <div class="card">
+            <h2>📦 INVENTARIO</h2>
+            <div class="grid-form">
+                <input type="text" id="inv-nombre" placeholder="Artículo (ej: Harina)" required>
+                <input type="number" id="inv-cantidad" placeholder="Cantidad" step="0.01">
+                <select id="inv-unidad" required>
+                    <option value="" disabled selected>Seleccione unidad</option>
+                    <option value="kg">KILOGRAMOS (KG)</option>
+                    <option value="g">GRAMOS (G)</option>
+                    <option value="u">UNIDADES (U)</option>
+                    <option value="L">LITROS (L)</option>
+                </select>
+                <input type="number" id="inv-precio" placeholder="Precio compra ($)" step="0.01" required>
+                <button id="btn-add-inv">➕ Agregar</button>
+            </div>
+            <table id="tabla-inventario">
+                <thead>
+                    <tr>
+                        <th>Artículo</th>
+                        <th>Stock</th>
+                        <th>Precio/U</th>
+                        <th>Acciones</th>
+                    </tr>
+                </thead>
+                <tbody></tbody>
+            </table>
+        </div>
+
+        <!-- Sección de Recetas -->
+        <div class="card">
+            <h2>📝 RECETAS</h2>
+            <input type="text" id="nombre-receta" placeholder="Nombre receta" required>
+            <div class="grid-form">
+                <select id="select-articulo"></select>
+                <input type="number" id="rec-cantidad" placeholder="Cantidad Usada" step="0.01" required>
+                <!-- <input type="number" id="rec-precio" placeholder="Precio actualizado" step="0.01"> -->
+                <button id="btn-add-rec">➕ Añadir a receta</button>
+            </div>
+            <table id="tabla-receta">
+                <thead>
+                    <tr>
+                        <th>Artículo</th>
+                        <th>Cantidad</th>
+                        <th>Precio/U</th>
+                        <th>Costo</th>
+                        <th>Acciones</th>
+                    </tr>
+                </thead>
+                <tbody></tbody>
+            </table>
+        </div>
+
+        <!-- Resultados -->
+        <div class="card resultados">
+            <h2>💰 COSTO </h2>
+            <div class="flex-controls">
+                <div>
+                    <label>Ganancia (%):</label>
+                    <input type="number" id="porcentaje" value="30" min="0">
+                </div>
+                <button id="btn-calcular">Calcular</button>
+                <button id="btn-guardar">💾 Guardar Receta</button>
+            </div>
+            <div id="resultados">
+                <p><strong>Costo total:</strong> $<span id="costo-total">0.00</span></p>
+                <p><strong>Precio venta:</strong> $<span id="precio-venta">0.00</span></p>
+            </div>
+        </div>
+
+        <!-- Recetas Guardadas -->
+        <div class="card">
+            <h2>📚 RECETAS GUARDADAS</h2>
+            <ul id="lista-recetas"></ul>
+        </div>
+
+        <!-- Modal para editar receta -->
+        <div id="modal-editar" class="modal">
+            <div class="modal-content">
+                <span class="close">&times;</span>
+                <h2>Editar Receta: <span id="modal-titulo"></span></h2>
+                <div id="modal-contenido"></div>
+                <button id="btn-guardar-cambios">💾 Guardar Cambios</button>
+            </div>
+        </div>
+    </div>
+    <!-- Cambiar las rutas de los scripts -->
+    <script src="/src/main.js" type="module"></script>
+</body>
+</html>
