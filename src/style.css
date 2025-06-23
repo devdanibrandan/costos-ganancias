@@ -1,402 +1,886 @@
+/* ==================== */
+/* VARIABLES Y ESTILOS BASE MODERNOS */
+/* ==================== */
 :root {
-    --primary: #3498db;
-    --danger: #e74c3c;
-    --success: #2ecc71;
-    --warning: #f39c12;
-    --purple: #9b59b6;
+    /* Colores principales */
+    --primary: #4361ee;
+    --primary-light: #4895ef;
+    --primary-dark: #3a0ca3;
+    --secondary: #7209b7;
+    --danger: #f72585;
+    --success: #4cc9f0;
+    --warning: #f8961e;
+    --info: #3a86ff;
+    
+    /* Escala de grises */
+    --text-dark: #2b2d42;
+    --text-medium: #4a4e69;
+    --text-light: #f8f9fa;
+    --text-gray: #6c757d;
+    
+    --bg-light: #f8f9fa;
+    --bg-white: #ffffff;
+    --bg-gray: #e9ecef;
+    
+    /* Bordes */
+    --border-color: #dee2e6;
+    --border-radius-sm: 8px;
+    --border-radius-md: 12px;
+    --border-radius-lg: 16px;
+    --border-radius-xl: 24px;
+    
+    /* Sombras */
+    --shadow-sm: 0 1px 3px rgba(0, 0, 0, 0.05);
+    --shadow-md: 0 4px 6px rgba(0, 0, 0, 0.08);
+    --shadow-lg: 0 10px 15px rgba(0, 0, 0, 0.1);
+    --shadow-primary: 0 4px 14px rgba(67, 97, 238, 0.3);
+    
+    /* Transiciones */
+    --transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+    --transition-slow: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+    
+    /* Gradientes */
+    --gradient-primary: linear-gradient(135deg, var(--primary) 0%, var(--primary-dark) 100%);
+    --gradient-secondary: linear-gradient(135deg, var(--secondary) 0%, #560bad 100%);
+    --gradient-danger: linear-gradient(135deg, var(--danger) 0%, #b5179e 100%);
+}
+
+/* ==================== */
+/* RESET Y ESTILOS BASE */
+/* ==================== */
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+html {
+    scroll-behavior: smooth;
+    font-size: 16px;
 }
 
 body {
-    font-family: 'Segoe UI', system-ui;
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
     line-height: 1.6;
-    background: #f8f9fa;
-    margin: 0;
+    background: var(--bg-light);
+    color: var(--text-dark);
+    -webkit-font-smoothing: antialiased;
     padding: 20px;
-    color: #333;
+    min-height: 100vh;
 }
 
-.container {
-    max-width: 1200px;
+/* ==================== */
+/* ESTRUCTURA PRINCIPAL */
+/* ==================== */
+.main-container {
+    width: 100%;
+    max-width: 1600px;
     margin: 0 auto;
     display: grid;
-    gap: 20px;
+    grid-template-columns: 1fr;
+    gap: 30px;
 }
 
-.card {
-    background: white;
-    border-radius: 10px;
-    padding: 25px;
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
+/* Header moderno con logo */
+.header-container {
+    text-align: center;
+    margin-bottom: 30px;
+    padding: 20px;
+    background: var(--bg-white);
+    border-radius: var(--border-radius-md);
+    box-shadow: var(--shadow-sm);
+    position: relative;
+    overflow: hidden;
 }
 
-h2 {
-    color: #2c3e50;
-    margin-top: 0;
-    border-bottom: 2px solid #eee;
-    padding-bottom: 10px;
+.header-container::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 5px;
+    background: var(--gradient-primary);
 }
 
-.grid-form {
-    display: grid;
-    grid-template-columns: 2fr 1fr 1fr 1fr auto;
-    gap: 10px;
-    margin: 15px 0;
-    align-items: center;
+.logo-container {
+    margin-bottom: 15px;
+    transition: var(--transition);
 }
 
-.flex-controls {
+.logo {
+    width: 180px; /* Tamaño mediano */
+    height: auto;
+    object-fit: contain;
+    transition: var(--transition);
+}
+
+.logo:hover {
+    transform: scale(1.05);
+}
+
+.header-title {
+    font-size: 2rem;
+    font-weight: 700;
+    margin: 0;
+    color: var(--text-dark);
+    position: relative;
+    display: inline-block;
+}
+
+.header-title::after {
+    content: '';
+    position: absolute;
+    bottom: -5px;
+    left: 0;
+    width: 100%;
+    height: 3px;
+    background: var(--gradient-primary);
+    border-radius: 3px;
+}
+
+/* ==================== */
+/* TABS MODERNOS */
+/* ==================== */
+.tab-container {
     display: flex;
-    gap: 10px;
-    align-items: center;
-    flex-wrap: wrap;
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    background: var(--bg-white);
+    box-shadow: var(--shadow-md);
+    margin-bottom: 30px;
+    border-radius: var(--border-radius-md);
+    overflow: hidden;
+    border: 1px solid var(--border-color);
 }
 
-input, select, button {
-    padding: 10px;
-    border: 1px solid #ddd;
-    border-radius: 5px;
-    font-size: 14px;
-}
-
-button {
-    background-color: var(--primary);
-    color: white;
-    cursor: pointer;
-    transition: all 0.2s;
+.tab-btn {
+    flex: 1;
+    padding: 16px 20px;
+    text-align: center;
+    background: none;
     border: none;
+    color: var(--text-gray);
+    font-weight: 600;
+    cursor: pointer;
+    transition: var(--transition);
+    position: relative;
     display: flex;
     align-items: center;
     justify-content: center;
-    gap: 5px;
+    gap: 10px;
 }
 
-button:hover {
-    opacity: 0.9;
-    transform: translateY(-1px);
+.tab-btn.active {
+    color: var(--primary);
+    background-color: rgba(67, 97, 238, 0.05);
 }
 
-#btn-guardar {
+.tab-btn::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    height: 3px;
+    background: var(--gradient-primary);
+    transform: scaleX(0);
+    transform-origin: right;
+    transition: transform 0.3s ease;
+}
+
+.tab-btn.active::after {
+    transform: scaleX(1);
+    transform-origin: left;
+}
+
+.tab-btn:hover:not(.active) {
+    background-color: rgba(67, 97, 238, 0.03);
+    color: var(--primary-dark);
+}
+
+.tab-content {
+    display: none;
+    animation: fadeIn 0.4s ease-out;
+    padding: 25px;
+    background: var(--bg-white);
+    border-radius: var(--border-radius-md);
+    box-shadow: var(--shadow-sm);
+}
+
+.tab-content.active {
+    display: block;
+}
+
+/* Subtabs mejorados */
+.sub-tab-container {
+    display: flex;
+    margin-bottom: 25px;
+    border-radius: var(--border-radius-md);
+    overflow: hidden;
+    background: var(--bg-light);
+    border: 1px solid var(--border-color);
+}
+
+.sub-tab-btn {
+    flex: 1;
+    padding: 14px 16px;
+    text-align: center;
+    background: none;
+    border: none;
+    color: var(--text-gray);
+    font-weight: 500;
+    cursor: pointer;
+    transition: var(--transition);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    font-size: 0.95rem;
+}
+
+.sub-tab-btn.active {
+    color: var(--primary);
+    background-color: var(--bg-white);
+    box-shadow: var(--shadow-sm);
+    font-weight: 600;
+}
+
+.sub-tab-btn:hover:not(.active) {
+    background-color: rgba(67, 97, 238, 0.05);
+}
+
+.sub-tab-content {
+    display: none;
+    animation: fadeInUp 0.4s ease-out;
+}
+
+.sub-tab-content.active {
+    display: block;
+}
+
+/* ==================== */
+/* COMPONENTES MODERNOS */
+/* ==================== */
+/* Tarjetas con efecto de elevación */
+.card {
+    background: var(--bg-white);
+    border-radius: var(--border-radius-md);
+    padding: 25px;
+    box-shadow: var(--shadow-sm);
+    transition: var(--transition-slow);
+    border: 1px solid rgba(0, 0, 0, 0.03);
+    position: relative;
+    overflow: hidden;
+}
+
+.card:hover {
+    transform: translateY(-5px);
+    box-shadow: var(--shadow-lg);
+}
+
+.card::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 4px;
+    height: 100%;
+    background: var(--gradient-primary);
+    transition: var(--transition);
+}
+
+.card:hover::before {
+    width: 6px;
+}
+
+.card-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+    padding-bottom: 15px;
+    border-bottom: 1px solid var(--border-color);
+}
+
+.card-title {
+    font-size: 1.5rem;
+    font-weight: 600;
+    color: var(--text-dark);
+    margin: 0;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.card-title svg {
+    width: 24px;
+    height: 24px;
+    color: var(--primary);
+}
+
+/* ==================== */
+/* BOTONES MODERNOS CON EFECTOS */
+/* ==================== */
+.btn {
+    padding: 12px 24px;
+    border: none;
+    border-radius: var(--border-radius-sm);
+    font-size: 1rem;
+    font-weight: 500;
+    cursor: pointer;
+    transition: var(--transition);
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    position: relative;
+    overflow: hidden;
+}
+
+.btn-primary {
+    background: var(--gradient-primary);
+    color: white;
+}
+
+.btn-primary:hover {
+    background: var(--gradient-primary);
+    transform: translateY(-3px);
+    box-shadow: var(--shadow-primary);
+}
+
+.btn-secondary {
+    background: var(--gradient-secondary);
+    color: white;
+}
+
+.btn-danger {
+    background: var(--gradient-danger);
+    color: white;
+}
+
+.btn-success {
     background-color: var(--success);
+    color: white;
+}
+
+.btn-warning {
+    background-color: var(--warning);
+    color: white;
+}
+
+.btn-edit {
+    background-color: var(--success);
+    color: white;
 }
 
 .btn-delete {
     background-color: var(--danger);
-    padding: 5px 10px;
-    font-size: 13px;
-}
-
-.btn-action {
-    padding: 5px 10px;
-    margin: 0 2px;
-    font-size: 13px;
-}
-
-.btn-edit {
-    background-color: var(--warning);
+    color: white;
 }
 
 .btn-clone {
-    background-color: var(--purple);
+    background-color: var(--warning);
+    color: white;
 }
 
-table {
+/* Efecto ripple mejorado */
+.btn::after {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 5px;
+    height: 5px;
+    background: rgba(255, 255, 255, 0.5);
+    opacity: 0;
+    border-radius: 100%;
+    transform: scale(1, 1) translate(-50%, -50%);
+    transform-origin: 50% 50%;
+}
+
+.btn:focus:not(:active)::after {
+    animation: ripple 0.6s ease-out;
+}
+
+@keyframes ripple {
+    0% {
+        transform: scale(0, 0);
+        opacity: 0.5;
+    }
+    100% {
+        transform: scale(20, 20);
+        opacity: 0;
+    }
+}
+
+/* Botón flotante para acciones principales */
+.btn-floating {
+    position: fixed;
+    bottom: 30px;
+    right: 30px;
+    width: 60px;
+    height: 60px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 6px 10px rgba(0, 0, 0, 0.15);
+    z-index: 50;
+    transition: var(--transition-slow);
+}
+
+.btn-floating:hover {
+    transform: translateY(-3px) scale(1.1);
+    box-shadow: 0 8px 15px rgba(0, 0, 0, 0.2);
+}
+
+/* ==================== */
+/* FORMULARIOS MODERNOS */
+/* ==================== */
+.form-group {
+    margin-bottom: 20px;
+}
+
+.form-label {
+    display: block;
+    margin-bottom: 10px;
+    font-weight: 500;
+    color: var(--text-medium);
+    font-size: 0.95rem;
+}
+
+.form-control {
     width: 100%;
-    border-collapse: collapse;
-    margin-top: 15px;
+    padding: 14px 16px;
+    border: 1px solid var(--border-color);
+    border-radius: var(--border-radius-sm);
+    font-size: 1rem;
+    transition: var(--transition);
+    background-color: var(--bg-white);
 }
 
-th, td {
-    padding: 12px 15px;
-    text-align: left;
-    border-bottom: 1px solid #eee;
+.form-control:focus {
+    outline: none;
+    border-color: var(--primary);
+    box-shadow: 0 0 0 3px rgba(67, 97, 238, 0.15);
 }
 
-th {
-    background-color: #f8f9fa;
-    font-weight: 600;
+/* Select personalizado */
+.select-wrapper {
+    position: relative;
 }
 
-#resultados {
-    background: #f8f9fa;
-    padding: 15px;
-    border-radius: 5px;
-    margin-top: 20px;
+.select-wrapper::after {
+    content: '⌄';
+    position: absolute;
+    top: 50%;
+    right: 16px;
+    transform: translateY(-50%);
+    pointer-events: none;
+    color: var(--text-gray);
+    font-size: 1.2rem;
 }
 
-#resultados p {
-    margin: 8px 0;
-    font-size: 16px;
-}
-
-#lista-recetas {
+/* ==================== */
+/* LISTA DE RECETAS MODERNA */
+/* ==================== */
+.recipe-list {
     list-style: none;
     padding: 0;
     display: grid;
-    gap: 15px;
+    gap: 25px;
+    grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
 }
 
-#lista-recetas li {
-    background: white;
-    border-radius: 8px;
-    padding: 15px;
-    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+.recipe-card {
+    background: var(--bg-white);
+    border-radius: var(--border-radius-md);
+    padding: 25px;
+    box-shadow: var(--shadow-sm);
+    transition: var(--transition-slow);
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    border: 1px solid rgba(0, 0, 0, 0.05);
+    position: relative;
+    overflow: hidden;
+}
+
+.recipe-card:hover {
+    transform: translateY(-5px);
+    box-shadow: var(--shadow-lg);
+    border-color: rgba(67, 97, 238, 0.2);
+}
+
+.recipe-card::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 4px;
+    background: var(--gradient-primary);
+    transition: var(--transition);
+}
+
+.recipe-card:hover::before {
+    height: 6px;
+}
+
+.recipe-name {
+    font-size: 1.3rem;
+    font-weight: 600;
+    color: var(--text-dark);
+    margin-bottom: 15px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.recipe-meta {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    margin-bottom: 20px;
+}
+
+.recipe-badge {
+    background: rgba(67, 97, 238, 0.1);
+    color: var(--primary);
+    padding: 6px 12px;
+    border-radius: 20px;
+    font-size: 0.85rem;
+    font-weight: 500;
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+}
+
+.recipe-actions {
+    margin-top: auto;
+    display: flex;
+    gap: 10px;
+    padding-top: 20px;
+    border-top: 1px solid var(--border-color);
+}
+
+/* ==================== */
+/* MODAL MODERNO */
+/* ==================== */
+.modal-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: rgba(0, 0, 0, 0.5);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 1000;
+    backdrop-filter: blur(5px);
+    animation: fadeIn 0.3s ease-out;
+}
+
+.modal-container {
+    background: var(--bg-white);
+    border-radius: var(--border-radius-lg);
+    width: 90%;
+    max-width: 700px;
+    max-height: 90vh;
+    overflow-y: auto;
+    box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+    animation: modalSlideIn 0.3s ease-out;
+    position: relative;
+}
+
+.modal-container::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 5px;
+    background: var(--gradient-primary);
+}
+
+.modal-header {
+    padding: 20px;
+    border-bottom: 1px solid var(--border-color);
+    position: sticky;
+    top: 0;
+    background: var(--bg-white);
+    z-index: 10;
     display: flex;
     justify-content: space-between;
     align-items: center;
 }
 
-.receta-info {
-    flex-grow: 1;
+.modal-title {
+    font-size: 1.5rem;
+    font-weight: 600;
+    margin: 0;
+    color: var(--text-dark);
 }
 
-.receta-nombre {
-    font-weight: bold;
-    display: block;
-    margin-bottom: 5px;
-    color: #2c3e50;
+.modal-close {
+    background: none;
+    border: none;
+    font-size: 1.5rem;
+    cursor: pointer;
+    color: var(--text-gray);
+    transition: var(--transition);
+    padding: 5px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
 }
 
-.receta-detalle {
+.modal-close:hover {
+    color: var(--danger);
+    background: rgba(247, 37, 133, 0.1);
+    transform: rotate(90deg);
+}
+
+.modal-body {
+    padding: 20px;
+}
+
+.modal-footer {
+    padding: 15px 20px;
+    border-top: 1px solid var(--border-color);
+    display: flex;
+    justify-content: flex-end;
+    gap: 10px;
+    position: sticky;
+    bottom: 0;
+    background: var(--bg-white);
+}
+
+/* ==================== */
+/* TABLAS MODERNAS */
+/* ==================== */
+.table-responsive {
+    overflow-x: auto;
+    border-radius: var(--border-radius-md);
+    box-shadow: var(--shadow-sm);
+    margin: 20px 0;
+    border: 1px solid var(--border-color);
+}
+
+.table {
+    width: 100%;
+    border-collapse: separate;
+    border-spacing: 0;
+    min-width: 800px;
+}
+
+.table th {
+    background-color: var(--primary);
+    color: white;
+    padding: 16px;
+    text-align: left;
+    font-weight: 500;
+    position: sticky;
+    top: 0;
+}
+
+.table td {
+    padding: 14px 16px;
+    border-bottom: 1px solid var(--border-color);
+    background-color: var(--bg-white);
+}
+
+.table tr:last-child td {
+    border-bottom: none;
+}
+
+.table tr:hover td {
+    background-color: rgba(67, 97, 238, 0.03);
+}
+
+.table-striped tr:nth-child(even) td {
+    background-color: var(--bg-light);
+}
+
+/* ==================== */
+/* INVENTARIO MEJORADO */
+/* ==================== */
+.inventario-container {
+    background: var(--bg-white);
+    border-radius: var(--border-radius-lg);
+    padding: 25px;
+    box-shadow: var(--shadow-md);
+}
+
+.inventario-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 25px;
+    flex-wrap: wrap;
+    gap: 15px;
+}
+
+.inventario-controls {
     display: flex;
     gap: 15px;
-    font-size: 0.9rem;
+    flex-wrap: wrap;
 }
 
-.receta-detalle span {
-    background: #f8f9fa;
-    padding: 3px 8px;
-    border-radius: 4px;
+/* Botón guardar/agregar dinámico */
+.btn-agregar {
+    background-color: var(--success);
+    color: white;
 }
 
-.receta-acciones {
-    display: flex;
-    gap: 8px;
-}
-
-#inv-unidad {
-    padding: 10px;
-    border-radius: 5px;
-    border: 1px solid #3498db;
-    width: 100%;
-    margin: 5px 0;
-    background-color: rgb(255, 255, 255);
-}
-
-.modal {
+.btn-guardar {
     display: none;
-    position: fixed;
-    z-index: 100;
-    left: 0;
-    top: 0;
-    width: 100%;
-    height: 100%;
-    background-color: rgba(0,0,0,0.7);
+    background-color: var(--primary);
+    color: white;
 }
 
-.modal-content {
-    background: white;
-    margin: 5% auto;
-    padding: 20px;
-    border-radius: 10px;
-    width: 80%;
-    max-width: 700px;
-    max-height: 80vh;
-    overflow-y: auto;
-    position: relative;
+.mode-edit .btn-agregar {
+    display: none;
 }
 
-.close {
-    color: #aaa;
-    position: absolute;
-    right: 20px;
-    top: 10px;
-    font-size: 28px;
-    font-weight: bold;
-    cursor: pointer;
+.mode-edit .btn-guardar {
+    display: inline-flex;
 }
 
-.close:hover {
-    color: #333;
+/* ==================== */
+/* ANIMACIONES */
+/* ==================== */
+@keyframes fadeIn {
+    from { opacity: 0; }
+    to { opacity: 1; }
 }
 
-.edit-table {
-    width: 100%;
-    margin: 15px 0;
+@keyframes fadeInUp {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
 }
 
-.edit-table input {
-    width: 80px;
-    padding: 5px;
+@keyframes modalSlideIn {
+    from { opacity: 0; transform: translateY(-30px); }
+    to { opacity: 1; transform: translateY(0); }
 }
 
-.full-width {
-    width: 100%;
-    margin-bottom: 15px;
-    padding: 10px;
+@keyframes spin {
+    to { transform: rotate(360deg); }
 }
 
-.header-container {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    margin-bottom: 2rem;
-    padding: 1rem;
-    background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
-    border-radius: 10px;
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-}
-
-/* Contenedor del logo mejorado */
-.logo-container {
-    position: relative;
-    height: 200px;  /* Aumentamos el tamaño */
-    width: 200px;
-    padding: 10px;
-    background: white;
-    border-radius: 50%;
-    box-shadow: 0 0 20px rgba(52, 152, 219, 0.3);
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    transition: all 0.4s ease;
-}
-
-/* Logo más grande con efecto hover */
-.logo {
-    height: 280px;  /* Tamaño aumentado */
-    width: auto;
-    z-index: 2;
-    filter: drop-shadow(0 2px 5px rgba(0,0,0,0.2));
-    transition: transform 0.3s ease;
-    object-fit: contain; /* Evita distorsión */
+/* ==================== */
+/* MEDIA QUERIES */
+/* ==================== */
+@media (min-width: 768px) {
+    .main-container {
+        grid-template-columns: 1fr 1fr;
+        gap: 25px;
+    }
     
-}
-
-.logo:hover {
-    transform: scale(1.1); /* Zoom al hover */
-    transition: transform 0.3s ease; /* Suavizado */
-}
-
-/* Efecto de brillo animado */
-.logo-glow {
-    position: absolute;
-    width: 100%;
-    height: 100%;
-    background: radial-gradient(circle at center, 
-                rgba(52, 152, 219, 0.4) 0%, 
-                transparent 70%);
-    border-radius: 50%;
-    animation: pulse 3s infinite;
-    opacity: 0.7;
-}
-
-/* Animación sutil */
-@keyframes pulse {
-    0% { transform: scale(0.95); opacity: 0.7; }
-    50% { transform: scale(1.05); opacity: 0.9; }
-    100% { transform: scale(0.95); opacity: 0.7; }
-}
-
-/* Texto descriptivo */
-.tagline {
-    margin-top: 5px;
-    font-size: 1.1rem;
-    color: #1c7177;
-    font-style: aitalic;
-    text-align: center;
-}
-
-/* Efectos interactivos */
-.logo-container:hover {
-    transform: scale(1.05);
-    box-shadow: 0 0 30px rgba(52, 152, 219, 0.5);
-}
-
-.logo-container:hover .logo {
-    transform: rotate(-5deg) scale(1.1);
-    animation: float 4s ease-in-out infinite;
-}
-
-/* Borde degradado */
-.logo-container::before {
-    content: '';
-    position: absolute;
-    inset: -3px;
-    background: linear-gradient(45deg, #3498db, #9b59b6);
-    border-radius: 50%;
-    z-index: -1;
-    opacity: 0.7;
-}
-
-/* Efecto de flotación sutil */
-@keyframes float {
-    0% { transform: translateY(0px); }
-    50% { transform: translateY(-5px); }
-    100% { transform: translateY(0px); }
-}
-/* Responsive para móviles */
-@media (max-width: 768px) {
-    .logo-container {
-        height: 100px;
-        width: 100px;
+    .header-title {
+        font-size: 2.25rem;
     }
     
     .logo {
-        height: 80px;
-    }
-    
-    .tagline {
-        font-size: 1rem;
+        width: 200px;
     }
 }
 
-@media (max-width: 768px) {
-    .grid-form {
-        grid-template-columns: 1fr;
+@media (min-width: 992px) {
+    .main-container {
+        grid-template-columns: 250px 1fr;
     }
     
-    .flex-controls {
+    .header-container {
+        grid-column: 1 / -1;
+    }
+    
+    .tab-container {
+        position: sticky;
+        top: 20px;
+    }
+}
+
+@media (min-width: 1200px) {
+    .main-container {
+        grid-template-columns: 300px 1fr;
+    }
+    
+    .recipe-list {
+        grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+    }
+}
+
+@media (max-width: 767px) {
+    body {
+        padding: 15px;
+    }
+    
+    .tab-container {
         flex-direction: column;
-        align-items: stretch;
     }
     
-    .modal-content {
-        width: 95%;
-        margin: 10px auto;
+    .tab-btn {
+        justify-content: flex-start;
+        padding: 14px 20px;
     }
-}
-
-@media (max-width: 768px) {
-    #lista-recetas li {
+    
+    .recipe-actions {
         flex-direction: column;
-        align-items: flex-start;
-        gap: 10px;
     }
     
-    .receta-detalle {
-        flex-wrap: wrap;
-        gap: 8px;
+    .recipe-actions .btn {
+        width: 100%;
     }
 }
 
-/* Transiciones suaves para todos los elementos */
-#tabla-inventario tr,
-#tabla-receta tr,
-#lista-recetas li {
-    transition: all 0.3s ease;
+/* ==================== */
+/* UTILIDADES */
+/* ==================== */
+.hidden {
+    display: none !important;
 }
 
-/* Estilo para filas que se están eliminando */
-.fade-out {
-    opacity: 0 !important;
-    transform: translateX(-30px);
+.text-center {
+    text-align: center;
 }
 
-/* Mantén los estilos existentes pero añade: */
-.btn-delete {
-    transition: transform 0.2s;
+.flex-between {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
 }
 
-.btn-delete:hover {
-    transform: scale(1.1);
+.mb-20 {
+    margin-bottom: 20px;
+}
+
+.mt-20 {
+    margin-top: 20px;
+}
+
+.animate-up {
+    animation: fadeInUp 0.4s ease-out forwards;
+}
+
+/* Loader */
+.loader {
+    display: inline-block;
+    width: 24px;
+    height: 24px;
+    border: 3px solid rgba(67, 97, 238, 0.2);
+    border-radius: 50%;
+    border-top-color: var(--primary);
+    animation: spin 1s linear infinite;
 }

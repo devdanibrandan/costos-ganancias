@@ -4,108 +4,162 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Costo y Ganancias</title>
-    <div class="header-container">
-    <div class="logo-title-wrapper">
-        <!-- Logo más grande con efecto especial -->
-        <div class="logo-container">
-            <img src="./src/assets/logo-pastas.png" alt="Logo" class="logo">
-            <div class="logo-glow"></div>
-        </div>
-    </div>
-    <p class="tagline">La Herramienta Definitiva Para Gastronomía Profesional</p>
-</div>
-</div>
-    
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
 </head>
 <body>
     <div class="container">
-        <!-- Sección de Inventario -->
-        <div class="card">
-            <h2>📦 INVENTARIO</h2>
-            <div class="grid-form">
-                <input type="text" id="inv-nombre" placeholder="Artículo (ej: Harina)" required>
-                <input type="number" id="inv-cantidad" placeholder="Cantidad" step="0.01">
-                <select id="inv-unidad" required>
-                    <option value="" disabled selected>Seleccione unidad</option>
-                    <option value="kg">KILOGRAMOS (KG)</option>
-                    <option value="g">GRAMOS (G)</option>
-                    <option value="u">UNIDADES (U)</option>
-                    <option value="L">LITROS (L)</option>
-                </select>
-                <input type="number" id="inv-precio" placeholder="Precio compra ($)" step="0.01" required>
-                <button id="btn-add-inv">➕ Agregar</button>
-            </div>
-            <table id="tabla-inventario">
-                <thead>
-                    <tr>
-                        <th>Artículo</th>
-                        <th>Stock</th>
-                        <th>Precio/U</th>
-                        <th>Acciones</th>
-                    </tr>
-                </thead>
-                <tbody></tbody>
-            </table>
-        </div>
-
-        <!-- Sección de Recetas -->
-        <div class="card">
-            <h2>📝 RECETAS</h2>
-            <input type="text" id="nombre-receta" placeholder="Nombre receta" required>
-            <div class="grid-form">
-                <select id="select-articulo"></select>
-                <input type="number" id="rec-cantidad" placeholder="Cantidad Usada" step="0.01" required>
-                <!-- <input type="number" id="rec-precio" placeholder="Precio actualizado" step="0.01"> -->
-                <button id="btn-add-rec">➕ Añadir a receta</button>
-            </div>
-            <table id="tabla-receta">
-                <thead>
-                    <tr>
-                        <th>Artículo</th>
-                        <th>Cantidad</th>
-                        <th>Precio/U</th>
-                        <th>Costo</th>
-                        <th>Acciones</th>
-                    </tr>
-                </thead>
-                <tbody></tbody>
-            </table>
-        </div>
-
-        <!-- Resultados -->
-        <div class="card resultados">
-            <h2>💰 COSTO </h2>
-            <div class="flex-controls">
-                <div>
-                    <label>Ganancia (%):</label>
-                    <input type="number" id="porcentaje" value="30" min="0">
+        <div class="header-container">
+            <div class="logo-title-wrapper">
+                <div class="logo-container">
+                    <img src="./src/assets/logo-pastas.png" alt="Logo" class="logo">
+                    <div class="logo-glow"></div>
                 </div>
-                <button id="btn-calcular">Calcular</button>
-                <button id="btn-guardar">💾 Guardar Receta</button>
             </div>
-            <div id="resultados">
-                <p><strong>Costo total:</strong> $<span id="costo-total">0.00</span></p>
-                <p><strong>Precio venta:</strong> $<span id="precio-venta">0.00</span></p>
+            <p class="tagline">La Herramienta Definitiva Para Gastronomía Profesional</p>
+        </div>
+        
+        <!-- Contenedor de pestañas -->
+        <div class="tab-container">
+            <button class="tab-btn active" data-tab="inventario">
+                <i class="fas fa-box"></i> Inventario
+            </button>
+            <button class="tab-btn" data-tab="recetas">
+                <i class="fas fa-utensils"></i> Recetas
+            </button>
+        </div>
+
+        <!-- Contenido de pestañas -->
+        <div id="inventario" class="tab-content active">
+            <div class="card">
+                <h2><i class="fas fa-box"></i> Inventario</h2>
+                <div class="grid-form" id="form-inventario">
+                    <input type="hidden" id="item-index">
+                    <div class="input-group">
+                        <input type="text" id="inv-nombre" placeholder="Artículo" required>
+                    </div>
+                    <div class="input-group">
+                        <input type="number" id="inv-cantidad" placeholder="Cantidad" step="0.01">
+                    </div>
+                    <div class="input-group">
+                        <select id="inv-unidad" required>
+                            <option value="" disabled selected>Unidad</option>
+                            <option value="kg">KG</option>
+                            <option value="g">G</option>
+                            <option value="u">Unidades</option>
+                            <option value="L">Litros</option>
+                        </select>
+                    </div>
+                    <div class="input-group">
+                        <input type="number" id="inv-precio" placeholder="Precio $" step="0.01" required>
+                    </div>
+                    <!-- <button id="btn-save-inv" class="btn-primary">💾 Guardar</button> -->
+                    <!-- <button id="btn-cancel-inv" class="btn-secondary" style="display:none;">✖ Cancelar</button> -->
+                </div>
+                <button id="btn-add-inv" class="btn-primary">➕ Agregar</button>
+                
+                <div class="table-container">
+                    <table id="tabla-inventario">
+                        <thead>
+                            <tr>
+                                <th>Artículo</th>
+                                <th>Stock</th>
+                                <th>Precio/U</th>
+                                <th>Acciones</th>
+                            </tr>
+                        </thead>
+                        <tbody></tbody>
+                    </table>
+                </div>
             </div>
         </div>
 
-        <!-- Recetas Guardadas -->
-        <div class="card">
-            <h2>📚 RECETAS GUARDADAS</h2>
-            <ul id="lista-recetas"></ul>
-        </div>
-
-        <!-- Modal para editar receta -->
-        <div id="modal-editar" class="modal">
-            <div class="modal-content">
-                <span class="close">&times;</span>
-                <h2>Editar Receta: <span id="modal-titulo"></span></h2>
-                <div id="modal-contenido"></div>
-                <button id="btn-guardar-cambios">💾 Guardar Cambios</button>
+        <div id="recetas" class="tab-content">
+            <div class="card">
+                <h2><i class="fas fa-utensils"></i> Recetas</h2>
+                
+                <!-- Pestañas internas para Recetas -->
+                <div class="sub-tab-container">
+                    <button class="sub-tab-btn active" data-subtab="nueva-receta">
+                        <i class="fas fa-plus-circle"></i> Nueva Receta
+                    </button>
+                    <button class="sub-tab-btn" data-subtab="recetas-guardadas">
+                        <i class="fas fa-book"></i> Recetas Guardadas
+                    </button>
+                </div>
+                
+                <!-- Contenido de subtabs -->
+                <div id="nueva-receta" class="sub-tab-content active">
+                    <div class="input-group">
+                        <input type="text" id="nombre-receta" placeholder="Nombre de Receta" required>
+                    </div>
+                    
+                    <div class="grid-form">
+                        <div class="input-group">
+                            <select id="select-articulo"></select>
+                        </div>
+                        <div class="input-group">
+                            <input type="number" id="rec-cantidad" placeholder="Cantidad" step="0.01" required>
+                        </div>
+                        <button id="btn-add-rec" class="btn-primary">➕ Añadir</button>
+                        <button id="btn-guardar" class="btn-success">💾 Guardar</button>
+                    </div>
+                    
+                    <div class="table-container">
+                        <table id="tabla-receta">
+                            <thead>
+                                <tr>
+                                    <th>Ingrediente</th>
+                                    <th>Cantidad</th>
+                                    <th>Precio/U</th>
+                                    <th>Costo</th>
+                                    <th>Acciones</th>
+                                </tr>
+                            </thead>
+                            <tbody></tbody>
+                        </table>
+                    </div>
+                    
+                    <div class="resumen-costo">
+                        <h3><i class="fas fa-calculator"></i> Resumen de Costo</h3>
+                        <div class="grid-form">
+                            <div class="input-group">
+                                <label class="label">Margen (%):</label>
+                                <input type="number" id="porcentaje" placeholder="Porcentaje de Ganancias" min="0">
+                            </div>
+                            <button id="btn-calcular" class="btn-primary">Calcular</button>
+                        </div>
+                        <div class="modal-totales">
+                            <div class="total-item costo-total">
+                                <span class="label">Total ingredientes:</span>
+                                <span id="costo-total" class="value">$0.00</span>
+                            </div>
+                            <div class="total-item precio-venta">
+                                <span class="label">Precio de venta:</span>
+                                <span id="precio-venta" class="value">$0.00</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div id="recetas-guardadas" class="sub-tab-content">
+                    <ul id="lista-recetas">
+                        <!-- Las recetas se cargarán dinámicamente -->
+                    </ul>
+                </div>
             </div>
         </div>
     </div>
-    <!-- Cambiar las rutas de los scripts -->
+
+    <!-- Modal para editar receta -->
+    <div id="modal-editar" class="modal">
+        <div class="modal-content">
+            <span class="close">&times;</span>
+            <h2><i class="fas fa-edit"></i> Editar Receta: <span id="modal-titulo"></span></h2>
+            <div id="modal-contenido"></div>
+            <button id="btn-guardar-cambios" class="btn-primary">💾 Guardar Cambios</button>
+        </div>
+    </div>
+
     <script src="/src/main.js" type="module"></script>
 </body>
 </html>
