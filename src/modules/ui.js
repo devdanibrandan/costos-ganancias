@@ -13,15 +13,17 @@ const actualizarInventario = () => {
                 <td>$${precioUnitario}/${item.unidad}</td>
                 <td class="acciones">
                     <button class="btn-editInv" data-idx="${index}">✏️ Editar</button>
-                    <button class="btn-delete" data-idx="${index}">🗑️ Eliminar</button>
+                    <button class="btn-deleteInv" data-idx="${index}">🗑️ Eliminar</button>
                 </td>
             </tr>
         `;
     }).join('');
 };
 
+//lista de articulos del select en la receta
 const actualizarSelectArticulos = () => {
     const select = document.getElementById('select-articulo');
+    if (!select) return;
     select.innerHTML = state.inventario.map(item => `
         <option value="${item.nombre}">
             ${item.nombre} ($${(item.precio / item.cantidad).toFixed(2)}/${item.unidad})
@@ -37,7 +39,7 @@ const actualizarRecetaActual = () => {
             <td>${item.cantidad} ${item.unidad}</td>
             <td>$${item.precioUnitario.toFixed(2)}</td>
             <td>$${item.costo.toFixed(2)}</td>
-            <td><button class="btn-delete" data-idx="${index}">🗑️Eliminar</button></td>
+            <td><button class="btn-deleteRec" data-idx="${index}">🗑️Eliminar</button></td>
         </tr>
     `).join('');
 }

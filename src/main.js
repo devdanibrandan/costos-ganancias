@@ -6,6 +6,7 @@ import { state } from './state.js';
 // Inicialización
 document.addEventListener('DOMContentLoaded', () => {
     // Cargar datos del localStorage si existen
+    document.body.style.visibility = 'visible';
     state.inventario = JSON.parse(localStorage.getItem('inventario')) || [];
     state.recetas = JSON.parse(localStorage.getItem('recetas')) || [];
     

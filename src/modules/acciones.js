@@ -60,7 +60,7 @@ const eliminarArticuloDelInventario = (index) => {
             return;
         }
         
-        if (confirm(`¿Eliminar "${nombreArticulo}" del inventario?`)) {
+        if (confirm(`¿Eliminar "${nombreArticulo}" del Inventario?`)) {
             state.inventario.splice(index, 1);
             localStorage.setItem('inventario', JSON.stringify(state.inventario));
             actualizarInventario();
@@ -90,6 +90,15 @@ const prepararEdicionInventario = (index) => {
         
         // Enfocar el primer campo
         document.getElementById('inv-nombre').focus();
+    } else {
+        // Si el índice no es válido, limpiar el formulario y quitar la clase 'editing'
+        document.getElementById('item-index').value = -1;
+        document.getElementById('inv-nombre').value = '';
+        document.getElementById('inv-cantidad').value = '';
+        document.getElementById('inv-unidad').selectedIndex = 0;
+        document.getElementById('inv-precio').value = '';
+        document.getElementById('btn-add-inv').textContent = "➕ Agregar";
+        document.getElementById('form-inventario').classList.remove('editing');
     }
 };
 
@@ -154,13 +163,14 @@ const cargarRecetasGuardadas = () => {
 
     // Agregar eventos a los botones
 
+    //Boton para Editar Receta
     document.querySelectorAll('.btn-edit').forEach(btn => {
         btn.addEventListener('click', (e) => {
-            alert('Editar receta');
             abrirModalEdicion(e.target.getAttribute('data-idx'));
         });
     });
 
+    //Bonton para Clonar Receta
     document.querySelectorAll('.btn-clone').forEach(btn => {
         btn.addEventListener('click', (e) => {
 
@@ -168,9 +178,10 @@ const cargarRecetasGuardadas = () => {
         });
     });
 
+    // Botón para Eliminar Receta
     document.querySelectorAll('.btn-delete').forEach(btn => {
         btn.addEventListener('click', (e) => {
-            alert('Eliminar receta');
+            console.log('Eliminar receta');
             eliminarReceta(e.target.getAttribute('data-idx'));
         });
     });

@@ -1,278 +1,82 @@
 /* ==================== */
-/* VARIABLES Y ESTILOS BASE MODERNOS */
+/* VARIABLES Y ESTILOS BASE */
 /* ==================== */
 :root {
-    /* Colores principales */
     --primary: #4361ee;
     --primary-light: #4895ef;
-    --primary-dark: #3a0ca3;
-    --secondary: #7209b7;
     --danger: #f72585;
     --success: #4cc9f0;
     --warning: #f8961e;
-    --info: #3a86ff;
-    
-    /* Escala de grises */
+    --purple: #7209b7;
     --text-dark: #2b2d42;
-    --text-medium: #4a4e69;
     --text-light: #f8f9fa;
     --text-gray: #6c757d;
-    
-    --bg-light: #f8f9fa;
-    --bg-white: #ffffff;
-    --bg-gray: #e9ecef;
-    
-    /* Bordes */
-    --border-color: #dee2e6;
-    --border-radius-sm: 8px;
-    --border-radius-md: 12px;
-    --border-radius-lg: 16px;
-    --border-radius-xl: 24px;
-    
-    /* Sombras */
-    --shadow-sm: 0 1px 3px rgba(0, 0, 0, 0.05);
-    --shadow-md: 0 4px 6px rgba(0, 0, 0, 0.08);
+    --border-color: #e9ecef;
+    --shadow-sm: 0 1px 3px rgba(0, 0, 0, 0.08);
+    --shadow-md: 0 4px 6px rgba(0, 0, 0, 0.1);
     --shadow-lg: 0 10px 15px rgba(0, 0, 0, 0.1);
-    --shadow-primary: 0 4px 14px rgba(67, 97, 238, 0.3);
-    
-    /* Transiciones */
-    --transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
-    --transition-slow: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
-    
-    /* Gradientes */
-    --gradient-primary: linear-gradient(135deg, var(--primary) 0%, var(--primary-dark) 100%);
-    --gradient-secondary: linear-gradient(135deg, var(--secondary) 0%, #560bad 100%);
-    --gradient-danger: linear-gradient(135deg, var(--danger) 0%, #b5179e 100%);
-}
-
-/* ==================== */
-/* RESET Y ESTILOS BASE */
-/* ==================== */
-* {
-    box-sizing: border-box;
-    margin: 0;
-    padding: 0;
-}
-
-html {
-    scroll-behavior: smooth;
-    font-size: 16px;
+    --radius-sm: 8px;
+    --radius-md: 12px;
+    --radius-lg: 16px;
+    --transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+    --gradient-primary: linear-gradient(135deg, #4361ee 0%, #3a0ca3 100%);
 }
 
 body {
     font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
     line-height: 1.6;
-    background: var(--bg-light);
-    color: var(--text-dark);
-    -webkit-font-smoothing: antialiased;
+    background: #f8f9fa;
+    margin: 0;
     padding: 20px;
-    min-height: 100vh;
+    color: var(--text-dark);
+    font-size: 16px;
+    -webkit-font-smoothing: antialiased;
 }
 
 /* ==================== */
 /* ESTRUCTURA PRINCIPAL */
 /* ==================== */
-.main-container {
+.container {
     width: 100%;
-    max-width: 1600px;
+    max-width: 1400px;
     margin: 0 auto;
     display: grid;
     grid-template-columns: 1fr;
-    gap: 30px;
+    gap: 20px;
 }
 
-/* Header moderno con logo */
 .header-container {
     text-align: center;
     margin-bottom: 30px;
     padding: 20px;
-    background: var(--bg-white);
-    border-radius: var(--border-radius-md);
+    background: white;
+    border-radius: var(--radius-md);
     box-shadow: var(--shadow-sm);
-    position: relative;
-    overflow: hidden;
-}
-
-.header-container::before {
-    content: '';
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 5px;
-    background: var(--gradient-primary);
-}
-
-.logo-container {
-    margin-bottom: 15px;
-    transition: var(--transition);
-}
-
-.logo {
-    width: 180px; /* Tamaño mediano */
-    height: auto;
-    object-fit: contain;
-    transition: var(--transition);
-}
-
-.logo:hover {
-    transform: scale(1.05);
 }
 
 .header-title {
     font-size: 2rem;
     font-weight: 700;
-    margin: 0;
     color: var(--text-dark);
-    position: relative;
+    margin: 0;
+    background: var(--gradient-primary);
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
     display: inline-block;
 }
 
-.header-title::after {
-    content: '';
-    position: absolute;
-    bottom: -5px;
-    left: 0;
-    width: 100%;
-    height: 3px;
-    background: var(--gradient-primary);
-    border-radius: 3px;
-}
-
 /* ==================== */
-/* TABS MODERNOS */
+/* COMPONENTES COMUNES */
 /* ==================== */
-.tab-container {
-    display: flex;
-    position: sticky;
-    top: 0;
-    z-index: 100;
-    background: var(--bg-white);
-    box-shadow: var(--shadow-md);
-    margin-bottom: 30px;
-    border-radius: var(--border-radius-md);
-    overflow: hidden;
-    border: 1px solid var(--border-color);
-}
-
-.tab-btn {
-    flex: 1;
-    padding: 16px 20px;
-    text-align: center;
-    background: none;
-    border: none;
-    color: var(--text-gray);
-    font-weight: 600;
-    cursor: pointer;
-    transition: var(--transition);
-    position: relative;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    gap: 10px;
-}
-
-.tab-btn.active {
-    color: var(--primary);
-    background-color: rgba(67, 97, 238, 0.05);
-}
-
-.tab-btn::after {
-    content: '';
-    position: absolute;
-    bottom: 0;
-    left: 0;
-    width: 100%;
-    height: 3px;
-    background: var(--gradient-primary);
-    transform: scaleX(0);
-    transform-origin: right;
-    transition: transform 0.3s ease;
-}
-
-.tab-btn.active::after {
-    transform: scaleX(1);
-    transform-origin: left;
-}
-
-.tab-btn:hover:not(.active) {
-    background-color: rgba(67, 97, 238, 0.03);
-    color: var(--primary-dark);
-}
-
-.tab-content {
-    display: none;
-    animation: fadeIn 0.4s ease-out;
-    padding: 25px;
-    background: var(--bg-white);
-    border-radius: var(--border-radius-md);
-    box-shadow: var(--shadow-sm);
-}
-
-.tab-content.active {
-    display: block;
-}
-
-/* Subtabs mejorados */
-.sub-tab-container {
-    display: flex;
-    margin-bottom: 25px;
-    border-radius: var(--border-radius-md);
-    overflow: hidden;
-    background: var(--bg-light);
-    border: 1px solid var(--border-color);
-}
-
-.sub-tab-btn {
-    flex: 1;
-    padding: 14px 16px;
-    text-align: center;
-    background: none;
-    border: none;
-    color: var(--text-gray);
-    font-weight: 500;
-    cursor: pointer;
-    transition: var(--transition);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    gap: 8px;
-    font-size: 0.95rem;
-}
-
-.sub-tab-btn.active {
-    color: var(--primary);
-    background-color: var(--bg-white);
-    box-shadow: var(--shadow-sm);
-    font-weight: 600;
-}
-
-.sub-tab-btn:hover:not(.active) {
-    background-color: rgba(67, 97, 238, 0.05);
-}
-
-.sub-tab-content {
-    display: none;
-    animation: fadeInUp 0.4s ease-out;
-}
-
-.sub-tab-content.active {
-    display: block;
-}
-
-/* ==================== */
-/* COMPONENTES MODERNOS */
-/* ==================== */
-/* Tarjetas con efecto de elevación */
 .card {
-    background: var(--bg-white);
-    border-radius: var(--border-radius-md);
-    padding: 25px;
+    background: white;
+    border-radius: var(--radius-md);
+    padding: 24px;
     box-shadow: var(--shadow-sm);
-    transition: var(--transition-slow);
+    margin-bottom: 20px;
+    transition: var(--transition);
     border: 1px solid rgba(0, 0, 0, 0.03);
-    position: relative;
-    overflow: hidden;
 }
 
 .card:hover {
@@ -280,53 +84,84 @@ body {
     box-shadow: var(--shadow-lg);
 }
 
-.card::before {
-    content: '';
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 4px;
-    height: 100%;
-    background: var(--gradient-primary);
-    transition: var(--transition);
-}
-
-.card:hover::before {
-    width: 6px;
-}
-
 .card-header {
     display: flex;
     justify-content: space-between;
     align-items: center;
     margin-bottom: 20px;
-    padding-bottom: 15px;
+    padding-bottom: 12px;
     border-bottom: 1px solid var(--border-color);
 }
 
-.card-title {
-    font-size: 1.5rem;
-    font-weight: 600;
+h2 {
     color: var(--text-dark);
     margin: 0;
+    font-size: 1.5rem;
+    font-weight: 600;
     display: flex;
     align-items: center;
-    gap: 12px;
+    gap: 10px;
 }
 
-.card-title svg {
+h2 svg {
     width: 24px;
     height: 24px;
     color: var(--primary);
 }
 
 /* ==================== */
-/* BOTONES MODERNOS CON EFECTOS */
+/* FORMULARIOS Y CONTROLES */
 /* ==================== */
-.btn {
-    padding: 12px 24px;
+.grid-form {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 20px;
+    margin: 20px 0;
+}
+
+.flex-controls {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+
+.input-group {
+    position: relative;
+    margin-bottom: 10px;
+}
+
+.input-label {
+    display: block;
+    margin-bottom: 8px;
+    font-size: 0.875rem;
+    font-weight: 500;
+    color: var(--text-dark);
+}
+
+input, select, textarea {
+    width: 100%;
+    padding: 12px 16px;
+    border: 1px solid var(--border-color);
+    border-radius: var(--radius-sm);
+    font-size: 1rem;
+    box-sizing: border-box;
+    transition: var(--transition);
+    background-color: white;
+}
+
+input:focus, select:focus, textarea:focus {
+    outline: none;
+    border-color: var(--primary);
+    box-shadow: 0 0 0 3px rgba(67, 97, 238, 0.2);
+}
+
+/* ==================== */
+/* BOTONES MODERNOS */
+/* ==================== */
+button {
+    padding: 12px 20px;
     border: none;
-    border-radius: var(--border-radius-sm);
+    border-radius: var(--radius-sm);
     font-size: 1rem;
     font-weight: 500;
     cursor: pointer;
@@ -334,58 +169,14 @@ body {
     display: inline-flex;
     align-items: center;
     justify-content: center;
-    gap: 10px;
+    gap: 8px;
+}
+
+.btn {
     position: relative;
     overflow: hidden;
 }
 
-.btn-primary {
-    background: var(--gradient-primary);
-    color: white;
-}
-
-.btn-primary:hover {
-    background: var(--gradient-primary);
-    transform: translateY(-3px);
-    box-shadow: var(--shadow-primary);
-}
-
-.btn-secondary {
-    background: var(--gradient-secondary);
-    color: white;
-}
-
-.btn-danger {
-    background: var(--gradient-danger);
-    color: white;
-}
-
-.btn-success {
-    background-color: var(--success);
-    color: white;
-}
-
-.btn-warning {
-    background-color: var(--warning);
-    color: white;
-}
-
-.btn-edit {
-    background-color: var(--success);
-    color: white;
-}
-
-.btn-delete {
-    background-color: var(--danger);
-    color: white;
-}
-
-.btn-clone {
-    background-color: var(--warning);
-    color: white;
-}
-
-/* Efecto ripple mejorado */
 .btn::after {
     content: '';
     position: absolute;
@@ -415,207 +206,251 @@ body {
     }
 }
 
-/* Botón flotante para acciones principales */
-.btn-floating {
-    position: fixed;
-    bottom: 30px;
-    right: 30px;
-    width: 60px;
-    height: 60px;
-    border-radius: 50%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    box-shadow: 0 6px 10px rgba(0, 0, 0, 0.15);
-    z-index: 50;
-    transition: var(--transition-slow);
+.btn-primary {
+    background-color: var(--primary);
+    color: white;
 }
 
-.btn-floating:hover {
-    transform: translateY(-3px) scale(1.1);
-    box-shadow: 0 8px 15px rgba(0, 0, 0, 0.2);
+.btn-primary:hover {
+    background-color: var(--primary-light);
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(67, 97, 238, 0.2);
+}
+
+.btn-delete {
+    background-color: var(--danger);
+    color: white;
+}
+
+.btn-edit {
+    background-color: var(--success);
+    color: white;
+}
+
+.btn-clone {
+    background-color: var(--warning);
+    color: white;
+}
+
+.btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.btn:active {
+    transform: translateY(0);
 }
 
 /* ==================== */
-/* FORMULARIOS MODERNOS */
+/* TABLAS MODERNAS */
 /* ==================== */
-.form-group {
-    margin-bottom: 20px;
+.table-container {
+    overflow-x: auto;
+    border-radius: var(--radius-sm);
+    box-shadow: var(--shadow-sm);
+    margin-top: 20px;
 }
 
-.form-label {
-    display: block;
-    margin-bottom: 10px;
-    font-weight: 500;
-    color: var(--text-medium);
-    font-size: 0.95rem;
-}
-
-.form-control {
+table {
     width: 100%;
-    padding: 14px 16px;
-    border: 1px solid var(--border-color);
-    border-radius: var(--border-radius-sm);
-    font-size: 1rem;
-    transition: var(--transition);
-    background-color: var(--bg-white);
+    border-collapse: separate;
+    border-spacing: 0;
+    font-size: 0.875rem;
+    min-width: 600px;
 }
 
-.form-control:focus {
-    outline: none;
-    border-color: var(--primary);
-    box-shadow: 0 0 0 3px rgba(67, 97, 238, 0.15);
+th, td {
+    padding: 16px;
+    text-align: left;
+    border-bottom: 1px solid var(--border-color);
 }
 
-/* Select personalizado */
-.select-wrapper {
-    position: relative;
+th {
+    background-color: #f8f9fa;
+    font-weight: 600;
+    color: var(--text-dark);
+    position: sticky;
+    top: 0;
 }
 
-.select-wrapper::after {
-    content: '⌄';
-    position: absolute;
-    top: 50%;
-    right: 16px;
-    transform: translateY(-50%);
-    pointer-events: none;
-    color: var(--text-gray);
-    font-size: 1.2rem;
+tr:hover td {
+    background-color: #f8f9fa;
 }
 
 /* ==================== */
 /* LISTA DE RECETAS MODERNA */
 /* ==================== */
-.recipe-list {
+#lista-recetas {
     list-style: none;
     padding: 0;
     display: grid;
-    gap: 25px;
-    grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+    gap: 20px;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); /* Cambiado a auto-fit */
+    width: 100%;
+    padding: 0 20px; /* Padding lateral para no pegarse a los bordes */
+    box-sizing: border-box;
 }
 
-.recipe-card {
-    background: var(--bg-white);
-    border-radius: var(--border-radius-md);
-    padding: 25px;
+#lista-recetas li {
+    background: rgb(255, 255, 255);
+    border-radius: var(--radius-md);
+    padding: 20px;
     box-shadow: var(--shadow-sm);
-    transition: var(--transition-slow);
     display: flex;
     flex-direction: column;
-    height: 100%;
-    border: 1px solid rgba(0, 0, 0, 0.05);
-    position: relative;
-    overflow: hidden;
+    transition: var(--transition);
+    min-height: 75px;
+    max-width: auto; /* Asegura que no exceda el ancho */
 }
 
-.recipe-card:hover {
+#lista-recetas li:hover {
     transform: translateY(-5px);
     box-shadow: var(--shadow-lg);
-    border-color: rgba(67, 97, 238, 0.2);
 }
 
-.recipe-card::before {
-    content: '';
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 4px;
-    background: var(--gradient-primary);
-    transition: var(--transition);
-}
-
-.recipe-card:hover::before {
-    height: 6px;
-}
-
-.recipe-name {
-    font-size: 1.3rem;
-    font-weight: 600;
-    color: var(--text-dark);
+.receta-info {
     margin-bottom: 15px;
+}
+
+.receta-nombre {
+    font-weight: 600;
+    font-size: 1.2rem;
+    color: var(--text-dark);
+    margin-bottom: 10px;
     display: flex;
     align-items: center;
-    gap: 10px;
+    gap: 8px;
 }
 
-.recipe-meta {
+.receta-nombre svg {
+    color: var(--primary);
+    width: 20px;
+    height: 20px;
+}
+
+.receta-detalle {
     display: flex;
     flex-wrap: wrap;
     gap: 10px;
-    margin-bottom: 20px;
+    font-size: 0.875rem;
 }
 
-.recipe-badge {
-    background: rgba(67, 97, 238, 0.1);
-    color: var(--primary);
+.receta-detalle span {
+    background: #f1f3f5;
     padding: 6px 12px;
     border-radius: 20px;
-    font-size: 0.85rem;
-    font-weight: 500;
     display: inline-flex;
     align-items: center;
     gap: 6px;
+    font-weight: 500;
 }
 
-.recipe-actions {
-    margin-top: auto;
+.receta-detalle span svg {
+    width: 14px;
+    height: 14px;
+}
+
+.receta-acciones {
     display: flex;
     gap: 10px;
-    padding-top: 20px;
-    border-top: 1px solid var(--border-color);
+    margin-top: auto; /* Empuja los botones hacia abajo */
+    padding-top: 15px;
+    flex-wrap: nowrap; /* Nunca permite que se rompa la línea */
+    overflow-x: auto; /* Permite scroll si es necesario */
+    scrollbar-width: none; /* Oculta scrollbar en Firefox */
+}
+
+.receta-acciones::-webkit-scrollbar {
+    display: none; /* Oculta scrollbar en Chrome/Safari */
+}
+
+.receta-acciones button {
+    flex: 0 0 auto; /* No crece ni se encoge */
+    min-width: 100px; /* Ancho mínimo consistente */
+    padding: 8px 12px;
+}
+
+/* Ajustes para pantallas muy grandes */
+@media (min-width: 1600px) {
+    #lista-recetas {
+        grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+    }
+    
+    .receta-acciones {
+        justify-content: flex-start; /* Cambia la alineación si es necesario */
+    }
+    
+    .receta-acciones button {
+        flex: none; /* Desactiva el crecimiento flexible */
+        width: auto; /* Ancho automático según contenido */
+    }
+}
+
+
+
+/* Ajustes para móviles */
+@media (max-width: 480px) {
+    #lista-recetas {
+        grid-template-columns: 1fr;
+    }
+    
+    .receta-acciones {
+        flex-direction: row; /* Mantiene los botones en línea */
+        justify-content: space-between; /* Distribuye el espacio */
+    }
+    
+    .receta-acciones button {
+        flex: 1 1 45%; /* Dos botones por fila */
+        min-width: auto;
+        max-width: none;
+    }
 }
 
 /* ==================== */
 /* MODAL MODERNO */
 /* ==================== */
-.modal-overlay {
+.modal {
     position: fixed;
     top: 0;
     left: 0;
     right: 0;
     bottom: 0;
-    background-color: rgba(0, 0, 0, 0.5);
-    display: flex;
-    justify-content: center;
-    align-items: center;
+    background-color: rgba(0,0,0,0.5);
+    display: none;
     z-index: 1000;
+    overflow-y: auto;
     backdrop-filter: blur(5px);
     animation: fadeIn 0.3s ease-out;
 }
 
-.modal-container {
-    background: var(--bg-white);
-    border-radius: var(--border-radius-lg);
-    width: 90%;
-    max-width: 700px;
-    max-height: 90vh;
-    overflow-y: auto;
-    box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
-    animation: modalSlideIn 0.3s ease-out;
-    position: relative;
+@keyframes fadeIn {
+    from { opacity: 0; }
+    to { opacity: 1; }
 }
 
-.modal-container::before {
-    content: '';
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 5px;
-    background: var(--gradient-primary);
+.modal-content {
+    background: white;
+    margin: 30px auto;
+    padding: 0;
+    border-radius: var(--radius-lg);
+    width: 95%;
+    max-width: 600px;
+    box-sizing: border-box;
+    animation: modalSlideIn 0.3s ease-out;
+    overflow: hidden;
+    box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+}
+
+@keyframes modalSlideIn {
+    from { opacity: 0; transform: translateY(-30px); }
+    to { opacity: 1; transform: translateY(0); }
 }
 
 .modal-header {
-    padding: 20px;
+    padding: 24px;
+    background-color: white;
     border-bottom: 1px solid var(--border-color);
-    position: sticky;
-    top: 0;
-    background: var(--bg-white);
-    z-index: 10;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
+    position: relative;
 }
 
 .modal-title {
@@ -626,222 +461,294 @@ body {
 }
 
 .modal-close {
+    position: absolute;
+    top: 24px;
+    right: 24px;
     background: none;
     border: none;
     font-size: 1.5rem;
     cursor: pointer;
     color: var(--text-gray);
     transition: var(--transition);
-    padding: 5px;
-    border-radius: 50%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
 }
 
 .modal-close:hover {
     color: var(--danger);
-    background: rgba(247, 37, 133, 0.1);
     transform: rotate(90deg);
 }
 
 .modal-body {
-    padding: 20px;
+    padding: 24px;
 }
 
 .modal-footer {
-    padding: 15px 20px;
+    padding: 16px 24px;
+    background-color: #f8f9fa;
     border-top: 1px solid var(--border-color);
     display: flex;
     justify-content: flex-end;
     gap: 10px;
-    position: sticky;
-    bottom: 0;
-    background: var(--bg-white);
 }
 
-/* ==================== */
-/* TABLAS MODERNAS */
-/* ==================== */
-.table-responsive {
-    overflow-x: auto;
-    border-radius: var(--border-radius-md);
-    box-shadow: var(--shadow-sm);
-    margin: 20px 0;
-    border: 1px solid var(--border-color);
-}
-
-.table {
+/* Input moderno en modal */
+#edit-nombre.full-width {
     width: 100%;
-    border-collapse: separate;
-    border-spacing: 0;
-    min-width: 800px;
-}
-
-.table th {
-    background-color: var(--primary);
-    color: white;
     padding: 16px;
-    text-align: left;
+    font-size: 1.25rem;
+    border: 1px solid var(--border-color);
+    border-radius: var(--radius-sm);
+    transition: var(--transition);
     font-weight: 500;
-    position: sticky;
-    top: 0;
+    margin-bottom: 20px;
 }
 
-.table td {
-    padding: 14px 16px;
-    border-bottom: 1px solid var(--border-color);
-    background-color: var(--bg-white);
+#edit-nombre.full-width:focus {
+    outline: none;
+    border-color: var(--primary);
+    box-shadow: 0 0 0 3px rgba(67, 97, 238, 0.2);
 }
 
-.table tr:last-child td {
-    border-bottom: none;
+/* Totales modernos */
+.modal-totales {
+    display: flex;
+    gap: 20px;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    margin: 20px 0;
 }
 
-.table tr:hover td {
-    background-color: rgba(67, 97, 238, 0.03);
+.total-card {
+    background-color: white;
+    padding: 20px;
+    border-radius: var(--radius-sm);
+    box-shadow: var(--shadow-sm);
+    flex: 1;
+    min-width: 200px;
+    border: 1px solid rgba(0, 0, 0, 0.03);
+    transition: var(--transition);
 }
 
-.table-striped tr:nth-child(even) td {
-    background-color: var(--bg-light);
-}
-
-/* ==================== */
-/* INVENTARIO MEJORADO */
-/* ==================== */
-.inventario-container {
-    background: var(--bg-white);
-    border-radius: var(--border-radius-lg);
-    padding: 25px;
+.total-card:hover {
+    transform: translateY(-3px);
     box-shadow: var(--shadow-md);
 }
 
-.inventario-header {
+.total-item {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    margin-bottom: 25px;
-    flex-wrap: wrap;
-    gap: 15px;
+    padding: 12px 0;
+    border-bottom: 1px solid var(--border-color);
 }
 
-.inventario-controls {
-    display: flex;
-    gap: 15px;
-    flex-wrap: wrap;
+.total-item:last-child {
+    border-bottom: none;
 }
 
-/* Botón guardar/agregar dinámico */
+.label {
+    font-weight: 500;
+    color: var(--text-gray);
+}
+
+.value {
+    font-weight: 600;
+    color: var(--text-dark);
+}
+
+#costo-total {
+    color: var(--danger);
+}
+
+#precio-venta {
+    color: var(--success);
+}
+
+/* Controles del modal modernos */
+.modal-controls {
+    display: grid;
+    grid-template-columns: 1fr 1fr auto;
+    gap: 15px;
+    padding: 20px;
+    background-color: #f8f9fa;
+    border-bottom: 1px solid var(--border-color);
+    align-items: center;
+}
+
+.select-ingrediente {
+    width: 100%;
+    padding: 12px 16px;
+    border: 1px solid var(--border-color);
+    border-radius: var(--radius-sm);
+    background-color: white;
+    font-size: 1rem;
+    transition: var(--transition);
+    appearance: none;
+    background-image: url("data:image/svg+xml;charset=UTF-8,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='currentColor' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3e%3cpolyline points='6 9 12 15 18 9'%3e%3c/polyline%3e%3c/svg%3e");
+    background-repeat: no-repeat;
+    background-position: right 16px center;
+    background-size: 16px;
+}
+
+.select-ingrediente:focus {
+    outline: none;
+    border-color: var(--primary);
+    box-shadow: 0 0 0 3px rgba(67, 97, 238, 0.2);
+}
+
+#cantidad-ingrediente {
+    width: 100%;
+    padding: 12px 16px;
+    border: 1px solid var(--border-color);
+    border-radius: var(--radius-sm);
+    text-align: center;
+    transition: var(--transition);
+    font-size: 1rem;
+}
+
+#cantidad-ingrediente:focus {
+    outline: none;
+    border-color: var(--primary);
+    box-shadow: 0 0 0 3px rgba(67, 97, 238, 0.2);
+}
+
+/* Botón agregar moderno */
 .btn-agregar {
+    padding: 12px 20px;
     background-color: var(--success);
     color: white;
-}
-
-.btn-guardar {
-    display: none;
-    background-color: var(--primary);
-    color: white;
-}
-
-.mode-edit .btn-agregar {
-    display: none;
-}
-
-.mode-edit .btn-guardar {
+    border: none;
+    border-radius: var(--radius-sm);
+    font-weight: 500;
+    cursor: pointer;
+    transition: var(--transition);
     display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    height: 100%;
+}
+
+.btn-agregar:hover {
+    background-color: #3aa8d8;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(76, 201, 240, 0.2);
+}
+
+/* Botón eliminar moderno */
+.btn-eliminar {
+    padding: 8px 16px;
+    background-color: var(--danger);
+    color: white;
+    border: none;
+    border-radius: var(--radius-sm);
+    font-weight: 500;
+    cursor: pointer;
+    transition: var(--transition);
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    font-size: 0.875rem;
+}
+
+.btn-eliminar:hover {
+    background-color: #e5176b;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 8px rgba(247, 37, 133, 0.2);
 }
 
 /* ==================== */
-/* ANIMACIONES */
+/* COMPONENTES ESPECÍFICOS */
 /* ==================== */
-@keyframes fadeIn {
-    from { opacity: 0; }
-    to { opacity: 1; }
+.resumen-costo {
+    background-color: #f8f9fa;
+    padding: 20px;
+    border-radius: var(--radius-sm);
+    margin-top: 20px;
+    box-shadow: var(--shadow-sm);
+    border: 1px solid rgba(0, 0, 0, 0.03);
 }
 
-@keyframes fadeInUp {
-    from {
-        opacity: 0;
-        transform: translateY(20px);
-    }
-    to {
-        opacity: 1;
-        transform: translateY(0);
-    }
+.resumen-costo p {
+    margin: 8px 0;
+    font-size: 1rem;
+    display: flex;
+    justify-content: space-between;
 }
 
-@keyframes modalSlideIn {
-    from { opacity: 0; transform: translateY(-30px); }
-    to { opacity: 1; transform: translateY(0); }
-}
-
-@keyframes spin {
-    to { transform: rotate(360deg); }
+.resumen-costo.mostrar p {
+    display: flex;
 }
 
 /* ==================== */
 /* MEDIA QUERIES */
 /* ==================== */
 @media (min-width: 768px) {
-    .main-container {
+    .container {
         grid-template-columns: 1fr 1fr;
         gap: 25px;
     }
     
-    .header-title {
-        font-size: 2.25rem;
+    .grid-form {
+        grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
     }
     
-    .logo {
-        width: 200px;
+    .flex-controls {
+        flex-direction: row;
+        align-items: center;
+    }
+    
+    .card {
+        padding: 28px;
     }
 }
 
 @media (min-width: 992px) {
-    .main-container {
-        grid-template-columns: 250px 1fr;
+    .container {
+        grid-template-columns: 1fr 1fr 1fr;
     }
     
-    .header-container {
-        grid-column: 1 / -1;
-    }
-    
-    .tab-container {
-        position: sticky;
-        top: 20px;
-    }
-}
-
-@media (min-width: 1200px) {
-    .main-container {
-        grid-template-columns: 300px 1fr;
-    }
-    
-    .recipe-list {
-        grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+    .header-title {
+        font-size: 2.5rem;
     }
 }
 
 @media (max-width: 767px) {
+    .modal-controls {
+        grid-template-columns: 1fr;
+    }
+    
+    .modal-totales {
+        flex-direction: column;
+        gap: 15px;
+    }
+    
+    .total-card {
+        width: 100%;
+    }
+    
+    .btn-agregar {
+        justify-content: center;
+    }
+}
+
+@media (max-width: 480px) {
     body {
         padding: 15px;
     }
     
-    .tab-container {
+    .card {
+        padding: 20px;
+    }
+    
+    .receta-acciones {
         flex-direction: column;
     }
     
-    .tab-btn {
-        justify-content: flex-start;
-        padding: 14px 20px;
-    }
-    
-    .recipe-actions {
-        flex-direction: column;
-    }
-    
-    .recipe-actions .btn {
+    .receta-acciones button {
         width: 100%;
+    }
+    
+    .modal-header, .modal-body, .modal-footer {
+        padding: 20px;
     }
 }
 
@@ -870,17 +777,382 @@ body {
     margin-top: 20px;
 }
 
+/* ==================== */
+/* ANIMACIONES */
+/* ==================== */
+@keyframes fadeInUp {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
 .animate-up {
     animation: fadeInUp 0.4s ease-out forwards;
 }
 
-/* Loader */
+/* ==================== */
+/* EFECTO DE CARGA */
+/* ==================== */
 .loader {
     display: inline-block;
-    width: 24px;
-    height: 24px;
-    border: 3px solid rgba(67, 97, 238, 0.2);
+    width: 20px;
+    height: 20px;
+    border: 3px solid rgba(255,255,255,0.3);
     border-radius: 50%;
-    border-top-color: var(--primary);
-    animation: spin 1s linear infinite;
+    border-top-color: white;
+    animation: spin 1s ease-in-out infinite;
+}
+
+@keyframes spin {
+    to { transform: rotate(360deg); }
+}
+
+/* ==================== */
+/* FORMULARIO NUEVA RECETA - RESPONSIVO */
+/* ==================== */
+
+.form-nueva-receta {
+    background: white;
+    border-radius: var(--radius-lg);
+    padding: 25px;
+    box-shadow: var(--shadow-md);
+    margin-bottom: 30px;
+}
+
+.form-nueva-receta .grid-form {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 20px;
+}
+
+.form-nueva-receta .input-group {
+    margin-bottom: 15px;
+}
+
+.form-nueva-receta .form-actions {
+    display: flex;
+    gap: 15px;
+    margin-top: 25px;
+    grid-column: 1 / -1;
+    flex-wrap: wrap;
+}
+
+.form-nueva-receta .form-btn {
+    flex: 1;
+    min-width: 120px;
+}
+
+/* Sección de ingredientes */
+.ingredientes-container {
+    margin-top: 30px;
+}
+
+.ingredientes-list {
+    margin-top: 20px;
+    border: 1px solid var(--border-color);
+    border-radius: var(--radius-md);
+    overflow: hidden;
+}
+
+/* Media Queries específicas */
+@media (max-width: 767px) {
+    .form-nueva-receta .grid-form {
+        grid-template-columns: 1fr;
+    }
+    
+    .form-nueva-receta .form-actions {
+        flex-direction: column;
+    }
+    
+    .form-nueva-receta .form-btn {
+        width: 100%;
+    }
+}
+
+@media (min-width: 1200px) {
+    .form-nueva-receta .grid-form {
+        grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+    }
+}
+
+/* ==================== */
+/* INVENTARIO - DISEÑO RESPONSIVO */
+/* ==================== */
+
+.inventario-container {
+    background: white;
+    border-radius: var(--radius-lg);
+    padding: 25px;
+    box-shadow: var(--shadow-md);
+}
+
+.inventario-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+    flex-wrap: wrap;
+    gap: 15px;
+}
+
+.inventario-controls {
+    display: flex;
+    gap: 15px;
+    flex-wrap: wrap;
+}
+
+.inventario-table-container {
+    overflow-x: auto;
+    border-radius: var(--radius-md);
+    margin-top: 20px;
+    border: 1px solid var(--border-color);
+}
+
+.inventario-table {
+    width: 100%;
+    min-width: 800px;
+}
+
+.inventario-table th {
+    background-color: var(--primary);
+    color: white;
+}
+
+.inventario-table tr:nth-child(even) {
+    background-color: #f8f9fa;
+}
+
+/* Formulario de filtros */
+.inventario-filtros {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 15px;
+    margin-bottom: 20px;
+    padding: 15px;
+    background-color: #f8f9fa;
+    border-radius: var(--radius-md);
+}
+
+/* Media Queries específicas */
+@media (max-width: 992px) {
+    .inventario-header {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+    
+    .inventario-controls {
+        width: 100%;
+    }
+}
+
+@media (max-width: 767px) {
+    .inventario-filtros {
+        grid-template-columns: 1fr;
+    }
+    
+    .inventario-controls button {
+        width: 100%;
+    }
+}
+
+@media (min-width: 1600px) {
+    .inventario-table {
+        min-width: 100%;
+    }
+}
+
+/* ==================== */
+/* AJUSTES GENERALES PARA FORMULARIOS */
+/* ==================== */
+
+/* Contenedor principal */
+.form-section {
+    width: 100%;
+    max-width: 1400px;
+    margin: 0 auto;
+    padding: 0 20px;
+    box-sizing: border-box;
+}
+
+/* Estilos para grupos de campos */
+.field-group {
+    margin-bottom: 20px;
+}
+
+/* Estilos para etiquetas */
+.form-label {
+    display: block;
+    margin-bottom: 8px;
+    font-weight: 500;
+    color: var(--text-dark);
+    font-size: 0.95rem;
+}
+
+/* Estilos para inputs */
+.form-input {
+    width: 100%;
+    padding: 12px 16px;
+    border: 1px solid var(--border-color);
+    border-radius: var(--radius-sm);
+    font-size: 1rem;
+    transition: var(--transition);
+}
+
+.form-input:focus {
+    outline: none;
+    border-color: var(--primary);
+    box-shadow: 0 0 0 3px rgba(67, 97, 238, 0.2);
+}
+
+/* Estilos para selects */
+.form-select {
+    appearance: none;
+    background-image: url("data:image/svg+xml;charset=UTF-8,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='currentColor' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3e%3cpolyline points='6 9 12 15 18 9'%3e%3c/polyline%3e%3c/svg%3e");
+    background-repeat: no-repeat;
+    background-position: right 12px center;
+    background-size: 16px;
+}
+
+/* Media Queries generales */
+@media (min-width: 768px) {
+    .form-section {
+        padding: 0 30px;
+    }
+    
+    .field-group {
+        margin-bottom: 25px;
+    }
+}
+
+@media (min-width: 1200px) {
+    .form-section {
+        padding: 0;
+    }
+}
+
+.tab-container {
+    display: flex;
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    background: white;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+    margin-bottom: 20px;
+    border-radius: var(--radius-sm);
+    overflow: hidden;
+}
+
+.tab-btn {
+    flex: 1;
+    padding: 15px;
+    text-align: center;
+    background: none;
+    border: none;
+    border-bottom: 3px solid transparent;
+    color: var(--text-gray);
+    font-weight: bold;
+    cursor: pointer;
+    transition: all 0.3s;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+}
+
+.tab-btn.active {
+    color: var(--primary);
+    border-bottom-color: var(--primary);
+    background-color: rgba(67, 97, 238, 0.05);
+}
+
+.tab-content {
+    display: none;
+    animation: fadeIn 0.3s ease-out;
+}
+
+.tab-content.active {
+    display: block;
+}
+
+/* Subtabs */
+.sub-tab-container {
+    display: flex;
+    margin-bottom: 20px;
+    border-radius: var(--radius-sm);
+    overflow: hidden;
+    background: #f8f9fa;
+}
+
+.sub-tab-btn {
+    flex: 1;
+    padding: 12px;
+    text-align: center;
+    background: none;
+    border: none;
+    color: var(--text-gray);
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.3s;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    font-size: 0.9rem;
+}
+
+.sub-tab-btn.active {
+    color: var(--primary);
+    background-color: white;
+    box-shadow: var(--shadow-sm);
+}
+
+.sub-tab-content {
+    display: none;
+}
+
+.sub-tab-content.active {
+    display: block;
+}
+
+.logo-container {
+    display: inline-block; /* O flex según necesidad */
+    padding: 5px;
+    box-sizing: border-box;
+}
+
+.logo {
+    width: 250px; /* Ajusta este valor según necesidad */
+    height: auto;
+    object-fit: contain;
+}
+
+/* ==================== */
+/* ESTILOS PARA BOTÓN GUARDAR */
+/* ==================== */
+
+.btn-save {
+    background-color: var(--success) !important;
+}
+
+.btn-save:hover {
+    background-color: #3aa8d8 !important;
+}
+
+/* Estado cuando está en modo edición */
+.btn-agregar[data-mode="edit"] {
+    display: none;
+}
+
+.btn-guardar {
+    display: none;
+    background-color: var(--success);
+}
+
+.btn-guardar[data-mode="edit"] {
+    display: inline-flex;
 }
