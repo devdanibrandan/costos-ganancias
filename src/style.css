@@ -40,8 +40,7 @@ body {
     width: 100%;
     max-width: 1400px;
     margin: 0 auto;
-    display: grid;
-    grid-template-columns: 1fr;
+    display: block; /* Cambiamos grid por block para flujo normal */
     gap: 20px;
 }
 
@@ -67,8 +66,130 @@ body {
 }
 
 /* ==================== */
-/* COMPONENTES COMUNES */
+/* TABS MODERNOS */
 /* ==================== */
+.tab-container {
+    display: flex;
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    background: var(--bg-white);
+    box-shadow: var(--shadow-md);
+    margin-bottom: 30px;
+    border-radius: var(--border-radius-md);
+    overflow: hidden;
+    border: 1px solid var(--border-color);
+}
+
+.tab-btn {
+    flex: 1;
+    padding: 16px 20px;
+    text-align: center;
+    background: none;
+    border: none;
+    color: var(--text-gray);
+    font-weight: 600;
+    cursor: pointer;
+    transition: var(--transition);
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+}
+
+.tab-btn.active {
+    color: var(--primary);
+    background-color: rgba(67, 97, 238, 0.05);
+}
+
+.tab-btn::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    height: 3px;
+    background: var(--gradient-primary);
+    transform: scaleX(0);
+    transform-origin: right;
+    transition: transform 0.3s ease;
+}
+
+.tab-btn.active::after {
+    transform: scaleX(1);
+    transform-origin: left;
+}
+
+.tab-btn:hover:not(.active) {
+    background-color: rgba(67, 97, 238, 0.03);
+    color: var(--primary-dark);
+}
+
+.tab-content {
+    display: none;
+    animation: fadeIn 0.4s ease-out;
+    padding: 25px;
+    background: var(--bg-white);
+    border-radius: var(--border-radius-md);
+    box-shadow: var(--shadow-sm);
+}
+
+.tab-content.active {
+    display: block;
+}
+
+/* Subtabs mejorados */
+.sub-tab-container {
+    display: flex;
+    margin-bottom: 25px;
+    border-radius: var(--border-radius-md);
+    overflow: hidden;
+    background: var(--bg-light);
+    border: 1px solid var(--border-color);
+}
+
+.sub-tab-btn {
+    flex: 1;
+    padding: 14px 16px;
+    text-align: center;
+    background: none;
+    border: none;
+    color: var(--text-gray);
+    font-weight: 500;
+    cursor: pointer;
+    transition: var(--transition);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    font-size: 0.95rem;
+}
+
+.sub-tab-btn.active {
+    color: var(--primary);
+    background-color: var(--bg-white);
+    box-shadow: var(--shadow-sm);
+    font-weight: 600;
+}
+
+.sub-tab-btn:hover:not(.active) {
+    background-color: rgba(67, 97, 238, 0.05);
+}
+
+.sub-tab-content {
+    display: none;
+    animation: fadeInUp 0.4s ease-out;
+}
+
+.sub-tab-content.active {
+    display: block;
+}
+
+/* ==================== */
+/* COMPONENTES MODERNOS */
+/* ==================== */
+/* Tarjetas con efecto de elevación */
 .card {
     background: white;
     border-radius: var(--radius-md);
@@ -77,6 +198,8 @@ body {
     margin-bottom: 20px;
     transition: var(--transition);
     border: 1px solid rgba(0, 0, 0, 0.03);
+    width: 100%;
+    box-sizing: border-box;
 }
 
 .card:hover {
@@ -283,11 +406,11 @@ tr:hover td {
 #lista-recetas {
     list-style: none;
     padding: 0;
-    display: grid;
+    display: flex; /* Cambiamos grid por flex */
+    flex-direction: column; /* Aseguramos flujo vertical */
     gap: 20px;
-    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); /* Cambiado a auto-fit */
     width: 100%;
-    padding: 0 20px; /* Padding lateral para no pegarse a los bordes */
+    padding: 0 20px;
     box-sizing: border-box;
 }
 
@@ -300,7 +423,8 @@ tr:hover td {
     flex-direction: column;
     transition: var(--transition);
     min-height: 75px;
-    max-width: auto; /* Asegura que no exceda el ancho */
+    width: 100%;
+    max-width: none;
 }
 
 #lista-recetas li:hover {
@@ -415,12 +539,14 @@ tr:hover td {
     left: 0;
     right: 0;
     bottom: 0;
-    background-color: rgba(0,0,0,0.5);
+    background-color: rgba(0,0,0,0.6);
     display: none;
     z-index: 1000;
     overflow-y: auto;
-    backdrop-filter: blur(5px);
+    backdrop-filter: blur(8px);
     animation: fadeIn 0.3s ease-out;
+    padding: 20px;
+    box-sizing: border-box;
 }
 
 @keyframes fadeIn {
@@ -433,17 +559,47 @@ tr:hover td {
     margin: 30px auto;
     padding: 0;
     border-radius: var(--radius-lg);
-    width: 95%;
-    max-width: 600px;
+    width: 100%;
+    max-width: 650px;
     box-sizing: border-box;
-    animation: modalSlideIn 0.3s ease-out;
     overflow: hidden;
-    box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+    box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    /* Estado inicial */
+    opacity: 1;
+    transform: translateY(20px);
+    transition: all 0.4s cubic-bezier(0.23, 1, 0.32, 1);
 }
 
+/* Clase que se añade con JavaScript para mostrar el modal */
+.modal-content.show {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+
 @keyframes modalSlideIn {
-    from { opacity: 0; transform: translateY(-30px); }
-    to { opacity: 1; transform: translateY(0); }
+    from { 
+        opacity: 0;
+        transform: translateY(-30px) scale(0.95);
+    }
+    to { 
+        opacity: 1;
+        transform: translateY(0) scale(1);
+    }
+}
+
+.modal-body::-webkit-scrollbar {
+    width: 8px;
+}
+
+.modal-body::-webkit-scrollbar-thumb {
+    background: #d1d1d1;
+    border-radius: 10px;
+}
+
+.modal-body::-webkit-scrollbar-thumb:hover {
+    background: #b1b1b1;
 }
 
 .modal-header {
@@ -451,13 +607,17 @@ tr:hover td {
     background-color: white;
     border-bottom: 1px solid var(--border-color);
     position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
 }
 
 .modal-title {
     font-size: 1.5rem;
-    font-weight: 600;
+    font-weight: 700;
     margin: 0;
     color: var(--text-dark);
+    letter-spacing: -0.5px;
 }
 
 .modal-close {
@@ -474,20 +634,29 @@ tr:hover td {
 
 .modal-close:hover {
     color: var(--danger);
-    transform: rotate(90deg);
+    background-color: rgba(247, 37, 133, 0.1);
+    transform: rotate(90deg) scale(1.1);
 }
 
 .modal-body {
     padding: 24px;
+    max-height: 60vh;
+    overflow-y: auto;
 }
 
 .modal-footer {
-    padding: 16px 24px;
+    padding: 20px 24px;
     background-color: #f8f9fa;
     border-top: 1px solid var(--border-color);
     display: flex;
     justify-content: flex-end;
-    gap: 10px;
+    gap: 12px;
+    flex-wrap: wrap;
+}
+
+.modal.active .modal-content {
+    transform: translateY(0);
+    opacity: 1;
 }
 
 /* Input moderno en modal */
