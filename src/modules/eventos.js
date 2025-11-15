@@ -8,8 +8,12 @@ import {
     abrirModalEdicion, 
     clonarReceta, 
     guardarCambiosReceta, 
-    cerrarModalEdicion
+    cerrarModalEdicion,
+    prepararEdicionInventario
 } from './acciones.js';
+
+import { state } from '../state.js';
+import { actualizarInventario, actualizarSelectArticulos, actualizarRecetaActual } from './ui.js';
 
 export function setupEventListeners() {
 
@@ -27,13 +31,71 @@ export function setupEventListeners() {
 
     document.getElementById('btn-calcular').addEventListener('click', calcularCostos);
 
+    
+    document.querySelector('#tabla-inventario tbody').addEventListener('click', (e) => {
+        if (e.target.classList.contains('btn-editInv')) {
+            e.preventDefault();
+            const index = parseInt(e.target.dataset.idx);
+            prepararEdicionInventario(index);
+        }
+    });
+
+    //actualizar inventario al guardar
+    document.querySelectorAll('btn-save-inv').forEach(btn => {
+        btn.addEventListener('click', (e) => {
+            actualizarInventario();
+        });
+    });
+
+    //eliminar articulo del inventario hijo de mil puta...
+    document.querySelector('#tabla-inventario tbody').addEventListener('click', (e) => {
+        if (e.target.classList.contains('btn-deleteInv')) {
+            e.preventDefault();
+            const index = parseInt(e.target.dataset.idx);
+            eliminarArticuloDelInventario(index);
+            actualizarInventario();
+            actualizarSelectArticulos();
+        }
+    });
+
+    //eliminar articulo de la receta
+    document.querySelector('#tabla-receta tbody').addEventListener('click', (e) => {
+        if (e.target.classList.contains('btn-deleteRec')) {
+            e.preventDefault();
+            const index = parseInt(e.target.dataset.idx);
+            state.recetaActual.items.splice(index, 1);
+            state.recetaActual.costoTotal = state.recetaActual.items.reduce((sum, item) => sum + item.costo, 0);
+            actualizarRecetaActual();
+            calcularCostos();
+        }
+    });
+
     // Agregar eventos a los botones
     document.querySelectorAll('.btn-edit').forEach(btn => {
         btn.addEventListener('click', (e) => {
             abrirModalEdicion(e.target.getAttribute('data-idx'));
         });
     });
+
+    document.getElementById('porcentaje').addEventListener('input', () => {
+        calcularCostos();
+        cargarRecetasGuardadas(); // Actualiza la lista con nuevos precios
+    });
     
+    //Eliminar receta
+    document.querySelectorAll('.btn-delete').forEach(btn => {
+
+        btn.addEventListener('click', (e) => {
+            
+            const index = e.target.getAttribute('data-idx');
+            if (confirm('¿Estás seguro de que quieres eliminar esta receta?')) {
+                state.recetas.splice(index, 1);
+                localStorage.setItem('recetas', JSON.stringify(state.recetas));
+                cargarRecetasGuardadas(); // Actualiza la lista
+            }
+        });
+    });
+
     // Clonar receta
     document.querySelectorAll('.btn-clone').forEach(btn => {
         btn.addEventListener('click', (e) => {
@@ -44,5 +106,24 @@ export function setupEventListeners() {
             calcularCostos();
             cargarRecetasGuardadas(); // Actualiza la lista con nuevos precios
         });
-    });   
+    });
+
+    //agrego los botons de editar y eliminar a cada articulo que se va agregando
+    document.querySelector('#tabla-inventario tbody').addEventListener('click', (e) => {
+        const row = e.target.closest('tr');
+        if (!row) return;
+        
+        if (e.target.classList.contains('btn-edit')) {
+            e.preventDefault();
+            const index = parseInt(e.target.dataset.idx);
+            prepararEdicionInventario(index);
+        }
+        
+        if (e.target.classList.contains('btn-deleteInv')) {
+            e.preventDefault();
+            const index = parseInt(e.target.dataset.idx);
+            eliminarArticuloDelInventario(index);
+        }
+    });
+
 }

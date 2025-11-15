@@ -9,58 +9,99 @@ import {
 } from './ui.js';
 
 const agregarArticuloAlInventario = () => {
+    const index = parseInt(document.getElementById('item-index').value);
     const nombre = document.getElementById('inv-nombre').value.trim();
     const cantidad = parseFloat(document.getElementById('inv-cantidad').value);
-    const unidad = document.getElementById('inv-unidad').value.trim();
+    const unidad = document.getElementById('inv-unidad').value;
     const precio = parseFloat(document.getElementById('inv-precio').value);
 
-    if (nombre && !isNaN(cantidad) && unidad && !isNaN(precio)) {
-        Inventario.agregarItem(nombre, cantidad, unidad, precio);
-        actualizarInventario();
-        actualizarSelectArticulos();
-        // Limpiar campos
-        document.getElementById('inv-nombre').value = '';
-        document.getElementById('inv-cantidad').value = '';
-        document.getElementById('inv-precio').value = '';
+    if (!nombre || isNaN(cantidad) || !unidad || isNaN(precio)) {
+        alert("Por favor completa todos los campos correctamente");
+        return;
     }
+
+    const item = { nombre, cantidad, unidad, precio };
+
+    if (index >= 0 && index < state.inventario.length) {
+        // Modo edición
+        state.inventario[index] = item;
+    } else {
+        // Modo agregar nuevo
+        state.inventario.push(item);
+    }
+
+    localStorage.setItem('inventario', JSON.stringify(state.inventario));
+    actualizarInventario();
+    actualizarSelectArticulos();
+    limpiarFormularioInventario();
 }
 
-const eliminarArticuloDelInventario = (e) => {
-    if (e.target.classList.contains('btn-delete')) {
-        const index = e.target.dataset.idx;
+const limpiarFormularioInventario = () => {
+    document.getElementById('item-index').value = -1;
+    document.getElementById('inv-nombre').value = '';
+    document.getElementById('inv-cantidad').value = '';
+    document.getElementById('inv-unidad').selectedIndex = 0;
+    document.getElementById('inv-precio').value = '';
+    document.getElementById('btn-add-inv').textContent = "➕ Agregar";
+    /* document.getElementById('btn-cancel-inv').style.display = 'none'; */
+}
+
+const eliminarArticuloDelInventario = (index) => {
+    if (index >= 0 && index < state.inventario.length) {
+        const nombreArticulo = state.inventario[index].nombre;
         
-        if (e.target.closest('#tabla-inventario')) {
-            if (confirm(`¿Eliminar ${state.inventario[index].nombre} del inventario?`)) {
-                Inventario.eliminarItem(index);
-                actualizarInventario();
-                actualizarSelectArticulos();
-            }
+        // Verificar si el artículo está siendo usado en alguna receta
+        const enUso = state.recetas.some(receta => 
+            receta.items.some(item => item.nombre === nombreArticulo)
+        );
+        
+        if (enUso) {
+            alert(`No se puede eliminar "${nombreArticulo}" porque está siendo usado en una o más recetas`);
+            return;
         }
-        else if (e.target.closest('#tabla-receta')) {
-        // Elimina solo la fila y actualiza cálculos
-            const row = e.target.closest('tr');
-            row.style.opacity = '0';
-            setTimeout(() => {
-                row.remove();
-                state.recetaActual.items.splice(index, 1);
-                Recetas.actualizarCostoTotal();
-                actualizarResultados();
-            }, 300); // Animación de fade out
-        }
-        else if (e.target.closest('#lista-recetas')) {
-            if (confirm(`¿Eliminar la receta "${state.recetas[index].nombre}"?`)) {
-                // Animación de eliminación
-                const li = e.target.closest('li');
-                li.style.transform = 'translateX(-100%)';
-                li.style.opacity = '0';
-                setTimeout(() => {
-                    Recetas.eliminarReceta(index);
-                    li.remove();
-                }, 300);
+        
+        if (confirm(`¿Eliminar "${nombreArticulo}" del Inventario?`)) {
+            state.inventario.splice(index, 1);
+            localStorage.setItem('inventario', JSON.stringify(state.inventario));
+            actualizarInventario();
+            
+            // Si estábamos editando este artículo, cancelar edición
+            if (parseInt(document.getElementById('item-index').value) === index) {
+                limpiarFormularioInventario();
             }
         }
     }
-}
+};
+
+const prepararEdicionInventario = (index) => {
+    if (index >= 0 && index < state.inventario.length) {
+        const item = state.inventario[index];
+        document.getElementById('item-index').value = index;
+        document.getElementById('inv-nombre').value = item.nombre;
+        document.getElementById('inv-cantidad').value = item.cantidad;
+        document.getElementById('inv-unidad').value = item.unidad;
+        document.getElementById('inv-precio').value = item.precio;
+        
+        // Cambiar texto del botón y mostrar guardar
+        document.getElementById('btn-add-inv').textContent = "💾 Guardar Cambios";
+        
+        // Resaltar el formulario
+        document.getElementById('form-inventario').classList.add('editing');
+        
+        // Enfocar el primer campo
+        document.getElementById('inv-nombre').focus();
+    } else {
+        // Si el índice no es válido, limpiar el formulario y quitar la clase 'editing'
+        document.getElementById('item-index').value = -1;
+        document.getElementById('inv-nombre').value = '';
+        document.getElementById('inv-cantidad').value = '';
+        document.getElementById('inv-unidad').selectedIndex = 0;
+        document.getElementById('inv-precio').value = '';
+        document.getElementById('btn-add-inv').textContent = "➕ Agregar";
+        document.getElementById('form-inventario').classList.remove('editing');
+    }
+};
+
 
 const agregarIngredienteAReceta = () => {
 
@@ -114,35 +155,69 @@ const cargarRecetasGuardadas = () => {
             <div class="receta-acciones">
                 <button class="btn-action btn-edit" data-idx="${index}">✏️ Editar</button>
                 <button class="btn-action btn-clone" data-idx="${index}">⎘ Clonar</button>
-                <button class="btn-delete" data-idx="${index}">🗑️</button>
+                <button class="btn-delete" data-idx="${index}">🗑️ Eliminar</button>
             </div>
         `;
         listaRecetas.appendChild(li);
     });
 
     // Agregar eventos a los botones
+
+    //Boton para Editar Receta
     document.querySelectorAll('.btn-edit').forEach(btn => {
         btn.addEventListener('click', (e) => {
             abrirModalEdicion(e.target.getAttribute('data-idx'));
         });
     });
 
+    //Bonton para Clonar Receta
     document.querySelectorAll('.btn-clone').forEach(btn => {
         btn.addEventListener('click', (e) => {
+
             clonarReceta(e.target.getAttribute('data-idx'));
+        });
+    });
+
+    // Botón para Eliminar Receta
+    document.querySelectorAll('.btn-delete').forEach(btn => {
+        btn.addEventListener('click', (e) => {
+            console.log('Eliminar receta');
+            eliminarReceta(e.target.getAttribute('data-idx'));
         });
     });
 }
 
 const guardarReceta = () => {
     const nombre = document.getElementById('nombre-receta').value.trim();
-    if (!nombre || state.recetaActual.items.length === 0) return;
+    if (!nombre || state.recetaActual.items.length === 0) {
+        alert("Por favor ingresa un nombre para la receta y añade al menos un ingrediente");
+        return;
+    }
+
+    // Verificar si ya existe una receta con ese nombre
+    const recetaExistente = state.recetas.find(r => r.nombre.toLowerCase() === nombre.toLowerCase());
+    
+    if (recetaExistente) {
+        if (!confirm(`Ya existe una receta llamada "${nombre}". ¿Deseas reemplazarla?`)) {
+            return;
+        }
+        // Eliminar la receta existente
+        const index = state.recetas.indexOf(recetaExistente);
+        state.recetas.splice(index, 1);
+    }
 
     state.recetaActual.nombre = nombre;
     state.recetas.push({...state.recetaActual});
     localStorage.setItem('recetas', JSON.stringify(state.recetas));
     
     cargarRecetasGuardadas();
+    resetRecetaActual();
+    
+    // Mostrar notificación de éxito
+    alert(`Receta "${nombre}" guardada correctamente`);
+}
+
+const resetRecetaActual = () => {
     state.recetaActual = { nombre: "", items: [], costoTotal: 0 };
     document.getElementById('nombre-receta').value = '';
     const tablaReceta = document.querySelector('#tabla-receta tbody');
@@ -151,6 +226,8 @@ const guardarReceta = () => {
 }
 
 const abrirModalEdicion = (index) => {
+    // Convertir index a número para evitar errores de tipo
+    index = Number(index);
     // 1. Validación inicial del índice
     if (index === null || index === undefined || isNaN(index) || index < 0 || index >= state.recetas.length) {
         console.error("Índice de receta inválido:", index);
@@ -181,97 +258,263 @@ const abrirModalEdicion = (index) => {
     const porcentaje = parseFloat(document.getElementById('porcentaje')?.value) || 0;
     const precioVenta = (receta.costoTotal || 0) * (1 + porcentaje / 100);
 
-    // 4. Construcción segura del HTML
-    // try {
-        document.getElementById('modal-titulo').textContent = receta.nombre || "Receta sin nombre";
-        
-        const contenido = document.getElementById('modal-contenido');
-        contenido.innerHTML = `
-            <div class="modal-header">
-                <input type="text" id="edit-nombre" value="${escapeHTML(receta.nombre)}" class="full-width">
-                <div class="modal-totales">
-                    <span>Costo Total: $${(receta.costoTotal || 0).toFixed(2)}</span>
-                    <span>Precio Venta (${porcentaje}%): $${precioVenta.toFixed(2)}</span>
-                </div>
+    // 4. Construcción del HTML con botones para agregar/eliminar
+    document.getElementById('modal-titulo').textContent = receta.nombre || "Receta sin nombre";
+    
+    const contenido = document.getElementById('modal-contenido');
+    contenido.innerHTML = `
+        <div class="modal-header">
+            <input type="text" id="edit-nombre" value="${escapeHTML(receta.nombre)}" class="full-width">
+            <div class="modal-totales">
+                <span>Costo Total: $${(receta.costoTotal || 0).toFixed(2)}</span>
+                <span>Precio Venta (${porcentaje}%): $${precioVenta.toFixed(2)}</span>
             </div>
-            <table class="edit-table">
-                <thead>
-                    <tr>
-                        <th>Ingrediente</th>
-                        <th>Cantidad</th>
-                        <th>Precio/U</th>
-                        <th>Costo</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    ${receta.items.map((item, i) => {
-                        if (!item) {
-                            console.warn(`Ítem ${i} es nulo, omitiendo`);
-                            return '';
-                        }
-                        return `
-                        <tr>
-                            <td>${escapeHTML(item.nombre)}</td>
-                            <td><input type="number" value="${item.cantidad || 0}" 
-                                data-index="${i}" 
-                                data-field="cantidad" 
-                                step="0.01"></td>
+        </div>
+        <div class="modal-controls">
+            <select id="select-ingrediente-modal" class="select-ingrediente">
+                <option value="">Seleccionar Ingrediente</option>
+                ${state.inventario.map(item => 
+                    `<option value="${item.nombre}" data-precio="${item.precio}">
+                        ${escapeHTML(item.nombre)} ($${item.precio.toFixed(2)})
+                    </option>`
+                ).join('')}
+            </select>
+            <input type="number" id="cantidad-ingrediente" placeholder="Cantidad" step="0.01" min="0" value="1">
+            <button id="agregar-ingrediente-modal" class="btn-agregar">➕ Agregar</button>
+        </div>
+        <table class="edit-table">
+            <thead>
+                <tr>
+                    <th>Ingrediente</th>
+                    <th>Cantidad</th>
+                    <th>Precio/U</th>
+                    <th>Costo</th>
+                    <th>Acciones</th>
+                </tr>
+            </thead>
+            <tbody id="items-receta">
+                ${receta.items.map((item, i) => {
+                    if (!item) {
+                        console.warn(`Ítem ${i} es nulo, omitiendo`);
+                        return '';
+                    }
+                    return `
+                    <tr data-index="${i}">
+                        <td>${escapeHTML(item.nombre)}</td>
+                        <td><input type="number" value="${item.cantidad || 0}" 
+                            data-index="${i}" 
+                            data-field="cantidad" 
+                            step="0.01"></td>
                         <td><input type="number" value="${(item.precioUnitario || 0).toFixed(2)}" 
-                                data-index="${i}" 
-                                data-field="precio" 
-                                step="0.01"></td>
-                            <td>$${((item.cantidad || 0) * (item.precioUnitario || 0)).toFixed(2)}</td>
-                        </tr>`;
-                    }).join('')}
-                </tbody>
-            </table>`;
+                            data-index="${i}" 
+                            data-field="precioUnitario" 
+                            step="0.01"></td>
+                        <td>$${((item.cantidad || 0) * (item.precioUnitario || 0)).toFixed(2)}</td>
+                        <td><button class="btn-eliminar" data-index="${i}">🗑️Eliminar</button></td>
+                    </tr>`;
+                }).join('')}
+            </tbody>
+        </table>
+        `;
+        
 
-    // 5. Event listeners con validación reforzada
+    // 5. Event listeners para edición de campos
     contenido.querySelectorAll('input[type="number"]').forEach(input => {
-        input.addEventListener('input', () => {
-            const idx = parseInt(input.getAttribute('data-index'));
-            const field = input.getAttribute('data-field');
-            const value = parseFloat(input.value) || 0;
+        input.addEventListener('input', (e) => {
+            const row = e.target.closest('tr');
+            if (!row) return;
+            
+            const idx = parseInt(row.getAttribute('data-index'));
+            const field = e.target.getAttribute('data-field');
+            const value = parseFloat(e.target.value) || 0;
 
-            // Validación exhaustiva
+            // Validación
             if (isNaN(idx) || idx < 0 || idx >= receta.items.length || !receta.items[idx]) {
                 console.error("Índice de item no válido durante edición:", idx);
                 return;
             }
 
-            if (!['cantidad', 'precio'].includes(field)) {
-                console.error("Campo inválido:", field);
-                return;
-            }
-
-            // Actualización segura
+            // Actualización del item
             receta.items[idx][field] = value;
             
             // Recalcular costo
             const item = receta.items[idx];
             const costo = (item.cantidad || 0) * (item.precioUnitario || 0);
-            const row = input.closest('tr');
-            if (row) {
-                const costoCell = row.querySelector('td:last-child');
-                if (costoCell) {
-                    costoCell.textContent = `$${costo.toFixed(2)}`;
-                }
+            const costoCell = row.querySelector('td:nth-child(4)');
+            if (costoCell) {
+                costoCell.textContent = `$${costo.toFixed(2)}`;
             }
 
-            // Actualizar totales (opcional)
-            receta.costoTotal = receta.items.reduce((sum, i) => sum + (i.cantidad * i.precioUnitario), 0);
+            // Actualizar totales
+            receta.costoTotal = receta.items.reduce((sum, item) => sum + (item.cantidad * item.precioUnitario), 0);
             document.querySelector('.modal-totales span:first-child').textContent = 
                 `Costo Total: $${receta.costoTotal.toFixed(2)}`;
+            
+            const nuevoPorcentaje = parseFloat(document.getElementById('porcentaje')?.value) || 0;
+            const nuevoPrecioVenta = receta.costoTotal * (1 + nuevoPorcentaje / 100);
+            document.querySelector('.modal-totales span:last-child').textContent = 
+                `Precio Venta (${nuevoPorcentaje}%): $${nuevoPrecioVenta.toFixed(2)}`;
+        });
+    });
+
+    // 6. Event listener para agregar ingredientes
+    document.getElementById('agregar-ingrediente-modal').addEventListener('click', () => {
+        const select = document.getElementById('select-ingrediente-modal');
+        const selectedOption = select.options[select.selectedIndex];
+        const cantidad = parseFloat(document.getElementById('cantidad-ingrediente').value) || 0;
+        
+        if (!selectedOption.value) {
+            alert("Por favor selecciona un ingrediente");
+            return;
+        }
+        
+        if (cantidad <= 0) {
+            alert("La cantidad debe ser mayor que cero");
+            return;
+        }
+        
+        const precioUnitario = parseFloat(selectedOption.getAttribute('data-precio')) || 0;
+        const nombreIngrediente = selectedOption.value;
+        
+        // Verificar si el ingrediente ya existe en la receta
+        const ingredienteExistenteIndex = receta.items.findIndex(item => item.nombre === nombreIngrediente);
+        
+        if (ingredienteExistenteIndex >= 0) {
+            // Si existe, preguntar si queremos sumar la cantidad
+            if (confirm("Este ingrediente ya está en la receta. ¿Deseas sumar esta cantidad a la existente?")) {
+                receta.items[ingredienteExistenteIndex].cantidad += cantidad;
+                
+                // Actualizar la fila en la tabla
+                const existingRow = document.querySelector(`tr[data-index="${ingredienteExistenteIndex}"]`);
+                if (existingRow) {
+                    existingRow.querySelector('input[data-field="cantidad"]').value = 
+                        receta.items[ingredienteExistenteIndex].cantidad;
+                    const costo = receta.items[ingredienteExistenteIndex].cantidad * 
+                        receta.items[ingredienteExistenteIndex].precioUnitario;
+                        existingRow.querySelector('td:nth-child(4)').textContent = `$${costo.toFixed(2)}`;
+                }
+            }
+        } else {
+            // Si no existe, agregar nuevo ingrediente
+            const nuevoItem = {
+                nombre: nombreIngrediente,
+                cantidad: cantidad,
+                precioUnitario: precioUnitario
+            };
+            
+            receta.items.push(nuevoItem);
+            const newIndex = receta.items.length - 1;
+            
+            const tbody = document.getElementById('items-receta');
+            const newRow = document.createElement('tr');
+            newRow.setAttribute('data-index', newIndex);
+            newRow.innerHTML = `
+                <td>${escapeHTML(nuevoItem.nombre)}</td>
+                <td><input type="number" value="${nuevoItem.cantidad}" 
+                    data-index="${newIndex}" 
+                    data-field="cantidad" 
+                    step="0.01"></td>
+                <td><input type="number" value="${nuevoItem.precioUnitario.toFixed(2)}" 
+                    data-index="${newIndex}" 
+                    data-field="precioUnitario" 
+                    step="0.01"></td>
+                <td>$${(nuevoItem.cantidad * nuevoItem.precioUnitario).toFixed(2)}</td>
+                <td><button class="btn-eliminar" data-index="${newIndex}">Eliminar</button></td>
+            `;
+            
+            tbody.appendChild(newRow);
+            
+            // Agregar event listeners a los nuevos inputs
+            newRow.querySelectorAll('input').forEach(input => {
+                input.addEventListener('input', (e) => {
+                    const row = e.target.closest('tr');
+                    const idx = parseInt(row.getAttribute('data-index'));
+                    const field = e.target.getAttribute('data-field');
+                    const value = parseFloat(e.target.value) || 0;
+
+                    receta.items[idx][field] = value;
+                    
+                    const item = receta.items[idx];
+                    const costo = (item.cantidad || 0) * (item.precioUnitario || 0);
+                    const costoCell = row.querySelector('td:nth-child(4)');
+                    if (costoCell) {
+                        costoCell.textContent = `$${costo.toFixed(2)}`;
+                    }
+
+                    // Actualizar totales
+                    receta.costoTotal = receta.items.reduce((sum, item) => sum + (item.cantidad * item.precioUnitario), 0);
+                    document.querySelector('.modal-totales span:first-child').textContent = 
+                        `Costo Total: $${receta.costoTotal.toFixed(2)}`;
+                    
+                    const nuevoPorcentaje = parseFloat(document.getElementById('porcentaje')?.value) || 0;
+                    const nuevoPrecioVenta = receta.costoTotal * (1 + nuevoPorcentaje / 100);
+                    document.querySelector('.modal-totales span:last-child').textContent = 
+                        `Precio Venta (${nuevoPorcentaje}%): $${nuevoPrecioVenta.toFixed(2)}`;
+                });
+            });
+            
+            // Agregar event listener al botón eliminar
+            newRow.querySelector('.btn-eliminar').addEventListener('click', (e) => {
+                const idx = parseInt(e.target.getAttribute('data-index'));
+                if (confirm("¿Estás seguro de eliminar este ingrediente de la receta?")) {
+                    receta.items.splice(idx, 1);
+                    row.remove();
+                    
+                    // Actualizar índices de las filas restantes
+                    document.querySelectorAll('#items-receta tr').forEach((tr, i) => {
+                        tr.setAttribute('data-index', i);
+                        tr.querySelector('.btn-eliminar').setAttribute('data-index', i);
+                    });
+                    
+                    // Actualizar totales
+                    receta.costoTotal = receta.items.reduce((sum, item) => sum + (item.cantidad * item.precioUnitario), 0);
+                    document.querySelector('.modal-totales span:first-child').textContent = 
+                        `Costo Total: $${receta.costoTotal.toFixed(2)}`;
+                    
+                    const nuevoPorcentaje = parseFloat(document.getElementById('porcentaje')?.value) || 0;
+                    const nuevoPrecioVenta = receta.costoTotal * (1 + nuevoPorcentaje / 100);
+                    document.querySelector('.modal-totales span:last-child').textContent = 
+                        `Precio Venta (${nuevoPorcentaje}%): $${nuevoPrecioVenta.toFixed(2)}`;
+                }
+            });
+        }
+        
+        // Resetear controles de agregar
+        select.selectedIndex = 0;
+        document.getElementById('cantidad-ingrediente').value = '1';
+    });
+
+    // 7. Event listeners para botones eliminar existentes
+    contenido.querySelectorAll('.btn-eliminar').forEach(btn => {
+        btn.addEventListener('click', (e) => {
+            const idx = parseInt(e.target.getAttribute('data-index'));
+            const row = e.target.closest('tr');
+            
+            if (confirm("¿Estás seguro de eliminar este ingrediente de la receta?")) {
+                receta.items.splice(idx, 1);
+                row.remove();
+                
+                // Actualizar índices de las filas restantes
+                document.querySelectorAll('#items-receta tr').forEach((tr, i) => {
+                    tr.setAttribute('data-index', i);
+                    tr.querySelector('.btn-eliminar').setAttribute('data-index', i);
+                });
+                
+                // Actualizar totales
+                receta.costoTotal = receta.items.reduce((sum, item) => sum + (item.cantidad * item.precioUnitario), 0);
+                document.querySelector('.modal-totales span:first-child').textContent = 
+                    `Costo Total: $${receta.costoTotal.toFixed(2)}`;
+                
+                const nuevoPorcentaje = parseFloat(document.getElementById('porcentaje')?.value) || 0;
+                const nuevoPrecioVenta = receta.costoTotal * (1 + nuevoPorcentaje / 100);
+                document.querySelector('.modal-totales span:last-child').textContent = 
+                    `Precio Venta (${nuevoPorcentaje}%): $${nuevoPrecioVenta.toFixed(2)}`;
+            }
         });
     });
 
     modal.style.display = 'block';
-
-// } catch (error) {
-//     console.error("Error al abrir modal:", error);
-//     alert("Error al cargar la receta");
-// }
-}
+};
 
 const escapeHTML = (str) => {
     if (!str) return '';
@@ -283,6 +526,7 @@ const escapeHTML = (str) => {
 }
 
 const guardarCambiosReceta =() => {
+
     const modal = document.getElementById('modal-editar');
     const nombre = document.getElementById('edit-nombre').value;
     
@@ -305,6 +549,16 @@ const clonarReceta = (index) => {
     cargarRecetasGuardadas();
 }
 
+const eliminarReceta = (index) => {
+    if (index >= 0 && index < state.recetas.length) {
+        if (confirm(`¿Estás seguro de eliminar la receta "${state.recetas[index].nombre}"?`)) {
+            state.recetas.splice(index, 1);
+            localStorage.setItem('recetas', JSON.stringify(state.recetas));
+            cargarRecetasGuardadas();
+        }
+    }
+}
+
 const cerrarModalEdicion = () => {
     document.getElementById('modal-editar').style.display = 'none';
 }
@@ -319,5 +573,6 @@ export {
     abrirModalEdicion,
     guardarCambiosReceta,
     clonarReceta,
-    cerrarModalEdicion
+    cerrarModalEdicion,
+    prepararEdicionInventario
 }
